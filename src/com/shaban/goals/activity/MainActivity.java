@@ -5,10 +5,9 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import com.shaban.goals.activity.R;
 import android.util.Log;
 
-import com.shaban.goals.R;
-import com.shaban.goals.R.layout;
 import com.shaban.goals.dao.DBHelper;
 
 public class MainActivity extends Activity

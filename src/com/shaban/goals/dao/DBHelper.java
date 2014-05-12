@@ -4,7 +4,8 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import com.shaban.goals.R;
+
+import com.shaban.goals.activity.R;
 import com.shaban.goals.log.Logger;
 
 import java.io.IOException;
