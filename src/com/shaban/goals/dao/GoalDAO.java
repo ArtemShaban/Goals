@@ -1,6 +1,6 @@
 package com.shaban.goals.dao;
 
-import com.shaban.goals.objects.Goal;
+import com.shaban.goals.data.Goal;
 
 import java.util.List;
 
