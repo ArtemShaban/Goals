@@ -11,7 +11,7 @@ import java.sql.Timestamp;
 
 public class Notification {
 	
-	private long notifiacattionId;
+	private long notifiacationId;
 	private Long goalId;
 	private int repeatNumber;
 	private Time repeatTime;
@@ -22,8 +22,8 @@ public class Notification {
 		super();	
 	}
 	
-	public long getNotifiacattionId() {
-		return notifiacattionId;
+	public long getNotifiacationId() {
+		return notifiacationId;
 	}
 
 	public Long getGoalId() {

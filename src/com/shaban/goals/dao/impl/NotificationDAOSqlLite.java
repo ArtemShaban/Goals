@@ -1,11 +1,12 @@
 package com.shaban.goals.dao.impl;
 
-import android.database.Cursor;
+import java.util.List;
+
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import com.shaban.goals.dao.NotificationDAO;
+import com.shaban.goals.data.Notification;
 import com.shaban.goals.log.Logger;
 
 /**
@@ -35,35 +36,45 @@ public class NotificationDAOSqlLite implements NotificationDAO {
         writableDatabase = dbHelper.getWritableDatabase();
         readableDatabase = dbHelper.getReadableDatabase();
 
-        Cursor c = writableDatabase.query("user", null, null, null, null, null, null);
-
-        if (c != null)
-        {
-            if (c.moveToFirst())
-            {
-                String str;
-                do
-                {
-                    str = "";
-                    for (String cn : c.getColumnNames())
-                    {
-                        str = str.concat(cn + " = "
-                                + c.getString(c.getColumnIndex(cn)) + "; ");
-                    }
-                    Log.i("Goal", str);
-
-                } while (c.moveToNext());
-            }
-        }
-        c.close();
-        dbHelper.close();
-
     }
 
     
+    
 	@Override
 	public void releaseResources() {
-		
+		dbHelper.close();
+	}
+
+
+
+	@Override
+	public Notification load(long notifId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
+	@Override
+	public boolean update(Notification notification) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
+
+	@Override
+	public long create(Notification notification) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+
+
+	@Override
+	public List getGoalsNotifications(Long goalId) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
