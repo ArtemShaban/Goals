@@ -1,14 +1,14 @@
-package com.shaban.goals.activity;
+package by.bsu.goals.activity;
 
 import android.app.Activity;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import com.shaban.goals.activity.R;
 import android.util.Log;
 
-import com.shaban.goals.dao.DBHelper;
+import by.bsu.goals.R;
+import by.bsu.goals.dao.DBHelper;
 
 public class MainActivity extends Activity
 {

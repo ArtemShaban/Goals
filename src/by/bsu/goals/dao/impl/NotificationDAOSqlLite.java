@@ -1,13 +1,13 @@
-package com.shaban.goals.dao.impl;
+package by.bsu.goals.dao.impl;
 
 import java.util.List;
 
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.shaban.goals.dao.NotificationDAO;
-import com.shaban.goals.data.Notification;
-import com.shaban.goals.log.Logger;
+import by.bsu.goals.dao.NotificationDAO;
+import by.bsu.goals.data.Notification;
+import by.bsu.goals.log.Logger;
 
 /**
  * @author Sergey Datskevich May 12, 2014 5:45:12 PM
@@ -15,7 +15,8 @@ import com.shaban.goals.log.Logger;
  *
  */
 
-public class NotificationDAOSqlLite implements NotificationDAO {
+public class NotificationDAOSqlLite implements NotificationDAO
+{
 
 	
 	private static final String NOTIFICATION_ID = "id";

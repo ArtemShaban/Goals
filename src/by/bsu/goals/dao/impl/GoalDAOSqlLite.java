@@ -1,4 +1,4 @@
-package com.shaban.goals.dao.impl;
+package by.bsu.goals.dao.impl;
 
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -6,9 +6,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import com.shaban.goals.dao.GoalDAO;
-import com.shaban.goals.data.Goal;
-import com.shaban.goals.log.Logger;
+import by.bsu.goals.dao.GoalDAO;
+import by.bsu.goals.log.Logger;
+import by.bsu.goals.data.Goal;
 
 import java.util.ArrayList;
 import java.util.List;

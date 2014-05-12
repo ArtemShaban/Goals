@@ -1,4 +1,4 @@
-package com.shaban.goals.data;
+package by.bsu.goals.data;
 
 import java.sql.Time;
 import java.sql.Timestamp;

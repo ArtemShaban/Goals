@@ -1,8 +1,8 @@
-package com.shaban.goals.dao;
+package by.bsu.goals.dao;
 
 import java.util.List;
 
-import com.shaban.goals.data.Notification;
+import by.bsu.goals.data.Notification;
 
 public interface NotificationDAO extends DAO {
 	

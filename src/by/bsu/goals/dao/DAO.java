@@ -1,4 +1,4 @@
-package com.shaban.goals.dao;
+package by.bsu.goals.dao;
 
 /**
  * Created by Artem Shaban

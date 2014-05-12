@@ -1,4 +1,4 @@
-package com.shaban.goals.log;
+package by.bsu.goals.log;
 
 import android.util.Log;
 
