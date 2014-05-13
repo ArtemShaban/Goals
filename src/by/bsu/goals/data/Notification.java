@@ -25,6 +25,10 @@ public class Notification {
 	public long getNotifiacationId() {
 		return notifiacationId;
 	}
+	
+	public void setNotificationId(long notifiacationId){
+		this.notifiacationId = notifiacationId; 
+	}
 
 	public Long getGoalId() {
 		return goalId;

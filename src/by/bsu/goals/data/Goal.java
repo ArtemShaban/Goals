@@ -1,5 +1,6 @@
 package by.bsu.goals.data;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 /**
@@ -11,9 +12,8 @@ public class Goal
     private long id;
     private String title;
     private String description;
-    private long startedAt;
-    private long finishedAt;
-    private long notifyAt;
+    private Timestamp startedAt;
+    private Timestamp finishedAt;
     private long categoryId;
     private long userId;
     private long parentId;
@@ -25,7 +25,7 @@ public class Goal
     {
     }
 
-    public Goal(long id, String title, long startedAt, long finishedAt, long userId)
+    public Goal(long id, String title, Timestamp startedAt, Timestamp finishedAt, long userId)
     {
         this.id = id;
         this.title = title;
@@ -64,36 +64,27 @@ public class Goal
         this.description = description;
     }
 
-    public long getStartedAt()
+    public Timestamp getStartedAt()
     {
         return startedAt;
     }
 
-    public void setStartedAt(long startedAt)
+    public void setStartedAt(Timestamp startedAt)
     {
         this.startedAt = startedAt;
     }
 
-    public long getFinishedAt()
+    public Timestamp getFinishedAt()
     {
         return finishedAt;
     }
 
-    public void setFinishedAt(long finishedAt)
+    public void setFinishedAt(Timestamp finishedAt)
     {
         this.finishedAt = finishedAt;
     }
-
-    public long getNotifyAt()
-    {
-        return notifyAt;
-    }
-
-    public void setNotifyAt(long notifyAt)
-    {
-        this.notifyAt = notifyAt;
-    }
-
+    
+    //TODO Realize categories 
     public long getCategoryId()
     {
         return categoryId;
@@ -149,7 +140,6 @@ public class Goal
                 ", description='" + description + '\'' +
                 ", startedAt=" + startedAt +
                 ", finishedAt=" + finishedAt +
-                ", notifyAt=" + notifyAt +
                 ", categoryId=" + categoryId +
                 ", userId=" + userId +
                 ", parentId=" + parentId +
