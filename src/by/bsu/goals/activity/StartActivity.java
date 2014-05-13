@@ -6,11 +6,10 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
-
 import by.bsu.goals.R;
 import by.bsu.goals.dao.DBHelper;
 
-public class MainActivity extends Activity
+public class StartActivity extends Activity
 {
     /**
      * Called when the activity is first created.
