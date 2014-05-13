@@ -12,7 +12,7 @@ public interface GoalDAO extends DAO
 {
     public long saveGoal(Goal goal);
     public Goal loadGoal(long goalId);
-    public List<Goal> loadChildren(long parentId);
+    public List<Goal> loadChildrens(long parentId);
     public Goal loadGoalWithChildren(long goalId);
     public List<Goal> loadAllGoals(Long userId);
     public void updateGoal(Goal goal);

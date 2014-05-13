@@ -119,6 +119,55 @@ public class NotificationDAOSqlLite implements NotificationDAO
 		cursor.close();
 		return notifications;
 	}
+	
+	@Override
+	public Notification getGoalsLastNotification(long goalId) {
+		String selection = GOAL_ID + " = ?";
+		String[] selectionArgs = new String[] { String.valueOf(goalId) };
+		String orderBy = NOTIFY_AT + " asc ";
+		Cursor cursor = readableDatabase.query(TABLE_NAME, null, selection,
+				selectionArgs, null, null, orderBy);
+		Notification notification = null;
+		if (cursor.moveToFirst()) {
+			notification = getNotification(cursor);
+			logger.i("Loaded " + notification.getNotifiacationId());
+		}
+		cursor.close();
+		return notification;
+	}
+	
+
+	@Override
+	public boolean deleteNotification(long notifId) {
+		writableDatabase.beginTransaction();
+		try {
+			String whereClause = NOTIFICATION_ID + " = ?";
+			String[] whereArgs = new String[]{ String.valueOf(notifId) };
+			writableDatabase.delete(TABLE_NAME, whereClause, whereArgs);
+			writableDatabase.setTransactionSuccessful();
+			return true;
+		} catch (Exception e) {
+			return false;
+		} finally {
+			writableDatabase.endTransaction();
+		}
+	}
+
+	@Override
+	public boolean deletAllNotificationsOfGoal(long goalId) {
+		writableDatabase.beginTransaction();
+		try {
+			String whereClause = GOAL_ID + " = ?";
+			String[] whereArgs = new String[]{ String.valueOf(goalId) };
+			writableDatabase.delete(TABLE_NAME, whereClause, whereArgs);
+			writableDatabase.setTransactionSuccessful();
+			return true;
+		} catch (Exception e) {
+			return false;
+		} finally {
+			writableDatabase.endTransaction();
+		}
+	}
 
 	private ContentValues notificationToValues(Notification notification) {
 		ContentValues contentValues = new ContentValues();
@@ -146,4 +195,5 @@ public class NotificationDAOSqlLite implements NotificationDAO
 		notification.setUri(cursor.getString(cursor.getColumnIndex(SOUND_URI)));
 		return notification;
 	}
+
 }

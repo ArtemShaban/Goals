@@ -10,5 +10,7 @@ public interface NotificationDAO extends DAO {
 	public boolean update(Notification notification);
 	public long create(Notification notification);
 	public List<Notification> getGoalsNotifications(Long goalId);
-	
+	public Notification getGoalsLastNotification(long goalId);
+	public boolean deleteNotification(long notifId);
+	public boolean deletAllNotificationsOfGoal(long goalId);
 }
