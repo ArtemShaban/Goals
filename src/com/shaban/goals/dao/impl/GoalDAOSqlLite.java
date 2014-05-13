@@ -1,17 +1,17 @@
 package com.shaban.goals.dao.impl;
 
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
+
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import com.shaban.goals.dao.GoalDAO;
 import com.shaban.goals.data.Goal;
 import com.shaban.goals.log.Logger;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Artem Shaban
@@ -40,29 +40,6 @@ public class GoalDAOSqlLite implements GoalDAO
         this.dbHelper = sqLiteOpenHelper;
         writableDatabase = dbHelper.getWritableDatabase();
         readableDatabase = dbHelper.getReadableDatabase();
-
-        Cursor c = writableDatabase.query("user", null, null, null, null, null, null);
-
-        if (c != null)
-        {
-            if (c.moveToFirst())
-            {
-                String str;
-                do
-                {
-                    str = "";
-                    for (String cn : c.getColumnNames())
-                    {
-                        str = str.concat(cn + " = "
-                                + c.getString(c.getColumnIndex(cn)) + "; ");
-                    }
-                    Log.i("Goal", str);
-
-                } while (c.moveToNext());
-            }
-        }
-        c.close();
-        dbHelper.close();
 
     }
 
@@ -169,8 +146,8 @@ public class GoalDAOSqlLite implements GoalDAO
         ContentValues contentValues = new ContentValues();
         contentValues.put(TITLE, goal.getTitle());
         contentValues.put(DESCRIPTION, goal.getDescription());
-        contentValues.put(STARTED_AT, goal.getStartedAt());
-        contentValues.put(FINISH_AT, goal.getFinishedAt());
+        contentValues.put(STARTED_AT, goal.getStartedAt().toString());
+        contentValues.put(FINISH_AT, goal.getFinishedAt().toString());
         contentValues.put(CATEGORY_ID, goal.getCategoryId());
         contentValues.put(USER_ID, goal.getUserId());
         contentValues.put(PARENT_ID, goal.getParentId());
@@ -184,8 +161,8 @@ public class GoalDAOSqlLite implements GoalDAO
         goal.setId(cursor.getLong(cursor.getColumnIndex(ID)));
         goal.setTitle(cursor.getString(cursor.getColumnIndex(TITLE)));
         goal.setDescription(cursor.getString(cursor.getColumnIndex(DESCRIPTION)));
-        goal.setStartedAt(cursor.getLong(cursor.getColumnIndex(STARTED_AT)));
-        goal.setFinishedAt(cursor.getLong(cursor.getColumnIndex(FINISH_AT)));
+        goal.setStartedAt(new Timestamp(cursor.getLong(cursor.getColumnIndex(STARTED_AT))));
+        goal.setFinishedAt(new Timestamp(cursor.getLong(cursor.getColumnIndex(FINISH_AT))));
         goal.setCategoryId(cursor.getLong(cursor.getColumnIndex(CATEGORY_ID)));
         goal.setUserId(cursor.getLong(cursor.getColumnIndex(USER_ID)));
         goal.setParentId(cursor.getLong(cursor.getColumnIndex(PARENT_ID)));

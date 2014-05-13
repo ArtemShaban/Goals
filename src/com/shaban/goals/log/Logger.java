@@ -11,7 +11,8 @@ public class Logger
     private static final String TAG = "GOALS";
     private String className;
 
-    public Logger(Class clazz)
+    @SuppressWarnings("rawtypes")
+	public Logger(Class clazz)
     {
         className = clazz.getName();
     }
