@@ -1,6 +1,7 @@
-package com.shaban.goals.exception;
+package by.bsu.goals.exception;
 
-import com.shaban.goals.log.Logger;
+import by.bsu.goals.log.Logger;
+
 
 @SuppressWarnings("serial")
 public class InternalException extends Exception {
