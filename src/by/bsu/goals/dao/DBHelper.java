@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-
 import by.bsu.goals.R;
 import by.bsu.goals.log.Logger;
 
@@ -43,26 +42,26 @@ public class DBHelper extends SQLiteOpenHelper
                     "  \"id\"   INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,\n" +
                     "  \"name\" VARCHAR(45)                       NOT NULL\n" +
                     ");");
-           db.execSQL("CREATE TABLE \"goal\" (\n" +
-                   "  \"id\"          INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,\n" +
-                   "  \"title\"       VARCHAR(45),\n" +
-                   "  \"description\" TEXT,\n" +
-                   "  \"started_at\"  INTEGER                           NOT NULL,\n" +
-                   "  \"finish_at\"   INTEGER                           NOT NULL,\n" +
-                   "  \"category_id\" INTEGER,\n" +
-                   "  \"user_id\"     INTEGER                           NOT NULL,\n" +
-                   "  \"parent_id\"   INTEGER,\n" +
-                   "  \"list_index\"  INTEGER,\n" +
-                   "  CONSTRAINT \"fk_goal_user\"\n" +
-                   "  FOREIGN KEY (\"user_id\")\n" +
-                   "  REFERENCES \"user\" (\"id\"),\n" +
-                   "  CONSTRAINT \"fk_goal_goal1\"\n" +
-                   "  FOREIGN KEY (\"id\", \"parent_id\")\n" +
-                   "  REFERENCES \"goal\" (\"parent_id\", \"parent_id\")\n" +
-                   ");");
-            db.executeSQL("CREATE INDEX \"goal.fk_goal_user\" ON \"goal\" (\"user_id\");\n");
-            db.executeSQL("CREATE INDEX \"goal.fk_goal_goal1\" ON \"goal\" (\"id\", \"parent_id\");\n");
-            db.executeSQL("CREATE TABLE \"notification\" (\n" +
+            db.execSQL("CREATE TABLE \"goal\" (\n" +
+                    "  \"id\"          INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,\n" +
+                    "  \"title\"       VARCHAR(45),\n" +
+                    "  \"description\" TEXT,\n" +
+                    "  \"started_at\"  INTEGER                           NOT NULL,\n" +
+                    "  \"finish_at\"   INTEGER                           NOT NULL,\n" +
+                    "  \"category_id\" INTEGER,\n" +
+                    "  \"user_id\"     INTEGER                           NOT NULL,\n" +
+                    "  \"parent_id\"   INTEGER,\n" +
+                    "  \"list_index\"  INTEGER,\n" +
+                    "  CONSTRAINT \"fk_goal_user\"\n" +
+                    "  FOREIGN KEY (\"user_id\")\n" +
+                    "  REFERENCES \"user\" (\"id\"),\n" +
+                    "  CONSTRAINT \"fk_goal_goal1\"\n" +
+                    "  FOREIGN KEY (\"id\", \"parent_id\")\n" +
+                    "  REFERENCES \"goal\" (\"parent_id\", \"parent_id\")\n" +
+                    ");");
+            db.execSQL("CREATE INDEX \"goal.fk_goal_user\" ON \"goal\" (\"user_id\");\n");
+            db.execSQL("CREATE INDEX \"goal.fk_goal_goal1\" ON \"goal\" (\"id\", \"parent_id\");\n");
+            db.execSQL("CREATE TABLE \"notification\" (\n" +
                     "  \"id\"            INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,\n" +
                     "  \"goal_id\"       INTEGER                           NOT NULL,\n" +
                     "  \"repeat_number\" INTEGER,\n" +
@@ -74,7 +73,7 @@ public class DBHelper extends SQLiteOpenHelper
                     "  REFERENCES \"goal\" (\"id\")\n" +
                     "  ON DELETE CASCADE\n" +
                     ");\n");
-            db.executeSQL("CREATE INDEX \"notification.fk_notification_goal1\" ON \"notification\" (\"goal_id\");");
+            db.execSQL("CREATE INDEX \"notification.fk_notification_goal1\" ON \"notification\" (\"goal_id\");");
         } catch (IOException e)
         {
             logger.e("", e);
