@@ -21,7 +21,34 @@ public class DBHelper extends SQLiteOpenHelper
     private static final Logger logger = new Logger("DBHelper");
     private Context context;
 
-    public DBHelper(Context context)
+    private static DBHelper instance;
+
+    public static DBHelper instance()
+    {
+        if (instance != null)
+        {
+            return instance;
+        }
+        else
+        {
+            throw new RuntimeException("Can't get instance before initialisation!");
+        }
+    }
+
+    public static void initDBHelper(Context context)
+    {
+        if (instance == null)
+        {
+            instance = new DBHelper(context);
+        }
+        else
+        {
+            logger.i("Try init helper which already init.");
+        }
+
+    }
+
+    private DBHelper(Context context)
     {
         super(context, DB_NAME, null, DB_VERSION);
         this.context = context;
