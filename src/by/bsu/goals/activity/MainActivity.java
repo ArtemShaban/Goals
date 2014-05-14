@@ -9,7 +9,7 @@ import android.util.Log;
 import by.bsu.goals.R;
 import by.bsu.goals.dao.DBHelper;
 
-public class StartActivity extends Activity
+public class MainActivity extends Activity
 {
     /**
      * Called when the activity is first created.
