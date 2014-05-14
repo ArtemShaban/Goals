@@ -28,7 +28,6 @@ public class LauncherActivity extends Activity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        databaseTest();
 
         dbHelper = new DBHelper(this);
         goalDAO = new GoalDAOSqlLite(dbHelper);
@@ -58,43 +57,5 @@ public class LauncherActivity extends Activity
     {
         super.onDestroy();
         goalDAO.releaseResources();
-    }
-
-    private void databaseTest()
-    {
-        deleteDatabase("goals");
-
-        DBHelper dbHelper = new DBHelper(this);
-
-        SQLiteDatabase writableDatabase = dbHelper.getWritableDatabase();
-
-        ContentValues contentValues = new ContentValues();
-        contentValues.put("title", "Artem");
-        contentValues.put("started_at", System.currentTimeMillis());
-        contentValues.put("finish_at", 112142);
-        contentValues.put("user_id", "13");
-        writableDatabase.insert("goal", null, contentValues);
-        Cursor c = writableDatabase.query("goal", null, null, null, null, null, null);
-
-        if (c != null)
-        {
-            if (c.moveToFirst())
-            {
-                String str;
-                do
-                {
-                    str = "";
-                    for (String cn : c.getColumnNames())
-                    {
-                        str = str.concat(cn + " = "
-                                + c.getString(c.getColumnIndex(cn)) + "; ");
-                    }
-                    Log.i("Goal", str);
-
-                } while (c.moveToNext());
-            }
-        }
-        c.close();
-        dbHelper.close();
     }
 }
