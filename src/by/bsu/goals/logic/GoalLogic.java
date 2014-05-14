@@ -5,6 +5,7 @@ import by.bsu.goals.dao.GoalDAO;
 import by.bsu.goals.data.Goal;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -18,6 +19,18 @@ public class GoalLogic
     public GoalLogic(GoalDAO goalDAO)
     {
         this.goalDAO = goalDAO;
+    }
+
+    public List<Goal> getSortedChildren(long goalId)
+    {
+
+        List<Goal> children = goalDAO.loadChildren(goalId);
+        if (children != null)
+        {
+            Collections.sort(children);
+            return children;
+        }
+        return null;
     }
 
     public List<Goal> getActiveGoals()

@@ -7,7 +7,7 @@ import java.util.ArrayList;
  * Created by Artem Shaban
  * Since 2014 MAY 11.
  */
-public class Goal
+public class Goal implements Comparable
 {
     private long id;
     private String title;
@@ -83,7 +83,7 @@ public class Goal
     {
         this.finishedAt = finishedAt;
     }
-    
+
     //TODO Realize categories 
     public long getCategoryId()
     {
@@ -146,5 +146,30 @@ public class Goal
                 ", position=" + position +
                 ", steps=" + steps +
                 '}';
+    }
+
+    @Override
+    public int compareTo(Object another)
+    {
+        if (another instanceof Goal)
+        {
+            Goal anotherGoal = (Goal) another;
+            if (anotherGoal.getPosition() > getPosition())
+            {
+                return 1;
+            }
+            else if (anotherGoal.getPosition() == getPosition())
+            {
+                return 0;
+            }
+            else
+            {
+                return -1;
+            }
+        }
+        else
+        {
+            throw new RuntimeException("Impossible compare with another type.");
+        }
     }
 }

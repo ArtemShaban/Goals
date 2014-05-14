@@ -66,7 +66,7 @@ public class GoalDAOSqlLite implements GoalDAO
     }
 
     @Override
-    public List<Goal> loadChildrens(long parentId)
+    public List<Goal> loadChildren(long parentId)
     {
         Cursor c = readableDatabase.query(TABLE_NAME, null, PARENT_ID + " = ?", new String[]{String.valueOf(parentId)}, null, null, null);
 
@@ -91,7 +91,7 @@ public class GoalDAOSqlLite implements GoalDAO
     public Goal loadGoalWithChildren(long goalId)
     {
         Goal goal = loadGoal(goalId);
-        goal.setSteps((ArrayList<Goal>) loadChildrens(goalId));
+        goal.setSteps((ArrayList<Goal>) loadChildren(goalId));
         return goal;
     }
 
