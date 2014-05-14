@@ -60,6 +60,21 @@ public class DBHelper extends SQLiteOpenHelper
                    "  FOREIGN KEY (\"id\", \"parent_id\")\n" +
                    "  REFERENCES \"goal\" (\"parent_id\", \"parent_id\")\n" +
                    ");");
+            db.executeSQL("CREATE INDEX \"goal.fk_goal_user\" ON \"goal\" (\"user_id\");\n");
+            db.executeSQL("CREATE INDEX \"goal.fk_goal_goal1\" ON \"goal\" (\"id\", \"parent_id\");\n");
+            db.executeSQL("CREATE TABLE \"notification\" (\n" +
+                    "  \"id\"            INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,\n" +
+                    "  \"goal_id\"       INTEGER                           NOT NULL,\n" +
+                    "  \"repeat_number\" INTEGER,\n" +
+                    "  \"repeat_time\"   INTEGER,\n" +
+                    "  \"notify_at\"     INTEGER                           NOT NULL,\n" +
+                    "  \"sound_uri\"     VARCHAR(100),\n" +
+                    "  CONSTRAINT \"fk_notification_goal1\"\n" +
+                    "  FOREIGN KEY (\"goal_id\")\n" +
+                    "  REFERENCES \"goal\" (\"id\")\n" +
+                    "  ON DELETE CASCADE\n" +
+                    ");\n");
+            db.executeSQL("CREATE INDEX \"notification.fk_notification_goal1\" ON \"notification\" (\"goal_id\");");
         } catch (IOException e)
         {
             logger.e("", e);
