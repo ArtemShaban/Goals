@@ -19,7 +19,7 @@ import by.bsu.goals.data.Goal;
  */
 public class GoalDAOSqlLite implements GoalDAO
 {
-    private static final String TABLE_NAME = "goals";
+    private static final String TABLE_NAME = "goal";
     private static final String ID = "id";
     private static final String TITLE = "title";
     private static final String DESCRIPTION = "description";
@@ -68,7 +68,7 @@ public class GoalDAOSqlLite implements GoalDAO
     @Override
     public List<Goal> loadChildrens(long parentId)
     {
-        Cursor c = readableDatabase.query(TABLE_NAME, null, PARENT_ID + "=", new String[]{String.valueOf(parentId)}, null, null, null);
+        Cursor c = readableDatabase.query(TABLE_NAME, null, PARENT_ID + " = ?", new String[]{String.valueOf(parentId)}, null, null, null);
 
         ArrayList<Goal> goals = null;
         if (c != null && c.moveToFirst())
@@ -101,7 +101,7 @@ public class GoalDAOSqlLite implements GoalDAO
         Cursor c;
         if (userId != null)
         {
-            c = readableDatabase.query(TABLE_NAME, null, USER_ID + "=", new String[]{String.valueOf(userId)}, null, null, null);
+            c = readableDatabase.query(TABLE_NAME, null, USER_ID + " = ?", new String[]{String.valueOf(userId)}, null, null, null);
         }
         else
         {
