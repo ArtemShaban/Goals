@@ -39,8 +39,27 @@ public class DBHelper extends SQLiteOpenHelper
             inputStream.read(bytes);
             String createScript = new String(bytes);
             logger.i(createScript);
-
-            db.execSQL(createScript);
+            db.execSQL("CREATE TABLE \"user\" (\n" +
+                    "  \"id\"   INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,\n" +
+                    "  \"name\" VARCHAR(45)                       NOT NULL\n" +
+                    ");");
+           db.execSQL("CREATE TABLE \"goal\" (\n" +
+                   "  \"id\"          INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,\n" +
+                   "  \"title\"       VARCHAR(45),\n" +
+                   "  \"description\" TEXT,\n" +
+                   "  \"started_at\"  INTEGER                           NOT NULL,\n" +
+                   "  \"finish_at\"   INTEGER                           NOT NULL,\n" +
+                   "  \"category_id\" INTEGER,\n" +
+                   "  \"user_id\"     INTEGER                           NOT NULL,\n" +
+                   "  \"parent_id\"   INTEGER,\n" +
+                   "  \"list_index\"  INTEGER,\n" +
+                   "  CONSTRAINT \"fk_goal_user\"\n" +
+                   "  FOREIGN KEY (\"user_id\")\n" +
+                   "  REFERENCES \"user\" (\"id\"),\n" +
+                   "  CONSTRAINT \"fk_goal_goal1\"\n" +
+                   "  FOREIGN KEY (\"id\", \"parent_id\")\n" +
+                   "  REFERENCES \"goal\" (\"parent_id\", \"parent_id\")\n" +
+                   ");");
         } catch (IOException e)
         {
             logger.e("", e);
