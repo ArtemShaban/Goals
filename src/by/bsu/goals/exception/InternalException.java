@@ -7,7 +7,7 @@ import by.bsu.goals.log.Logger;
 public class InternalException extends Exception {
 
 	private final Logger logger = new Logger(this);
-	private final static String DESCRIPTION = "The Exception rised programmaticaly";
+	private final static String DESCRIPTION = "The Exception raised programmaticaly";
 	
 	public InternalException() {
 		super(DESCRIPTION);
