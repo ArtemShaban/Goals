@@ -8,12 +8,14 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 import by.bsu.goals.R;
+import by.bsu.goals.dao.DAO;
 import by.bsu.goals.dao.DBHelper;
 import by.bsu.goals.dao.GoalDAO;
 import by.bsu.goals.dao.impl.GoalDAOSqlLite;
 import by.bsu.goals.data.Goal;
 import by.bsu.goals.logic.GoalLogic;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 public class LauncherActivity extends Activity
@@ -30,6 +32,7 @@ public class LauncherActivity extends Activity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        deleteDatabase("goals");
         DBHelper.initDBHelper(this);
 
         dbHelper = DBHelper.instance();
@@ -37,12 +40,7 @@ public class LauncherActivity extends Activity
         goalLogic = new GoalLogic(goalDAO);
 
         fillDatabase();
-    }
 
-    @Override
-    protected void onResume()
-    {
-        super.onResume();
         List<Goal> activeGoals = goalLogic.getActiveGoals();
         Intent intent;
         if (activeGoals != null && activeGoals.size() > 0)
@@ -62,53 +60,24 @@ public class LauncherActivity extends Activity
     {
         super.onDestroy();
         goalDAO.releaseResources();
+        dbHelper.close();
     }
 
     private void fillDatabase()
     {
-        DBHelper dbHelper = DBHelper.instance();
+        Goal goal = new Goal();
+        goal.setTitle("Title");
+        goal.setStartedAt(new Timestamp(1391990400000L));
+        goal.setFinishedAt(new Timestamp(1418169600000L));
+        goal.setUserId(DAO.FAKE_USER_ID);
+        long goalId = goalDAO.saveGoal(goal);
+        goal.setParentId(goalId);
+        goalDAO.saveGoal(goal);
+        goalDAO.saveGoal(goal);
+        goalDAO.saveGoal(goal);
+        goalDAO.saveGoal(goal);
+        goalDAO.saveGoal(goal);
 
-        SQLiteDatabase writableDatabase = dbHelper.getWritableDatabase();
-
-        ContentValues contentValues = new ContentValues();
-        contentValues.put("title", "First");
-        contentValues.put("started_at", System.currentTimeMillis());
-        contentValues.put("finish_at", 112142);
-        contentValues.put("user_id", "13");
-        long goalId = writableDatabase.insert("goal", null, contentValues);
-        contentValues.put("parent_id", goalId);
-        writableDatabase.insert("goal", null, contentValues);
-        writableDatabase.insert("goal", null, contentValues);
-        writableDatabase.insert("goal", null, contentValues);
-        writableDatabase.insert("goal", null, contentValues);
-        writableDatabase.insert("goal", null, contentValues);
-        writableDatabase.insert("goal", null, contentValues);
-        writableDatabase.insert("goal", null, contentValues);
-        writableDatabase.insert("goal", null, contentValues);
-        writableDatabase.insert("goal", null, contentValues);
-
-
-        Cursor c = writableDatabase.query("goal", null, null, null, null, null, null);
-
-        if (c != null)
-        {
-            if (c.moveToFirst())
-            {
-                String str;
-                do
-                {
-                    str = "";
-                    for (String cn : c.getColumnNames())
-                    {
-                        str = str.concat(cn + " = "
-                                + c.getString(c.getColumnIndex(cn)) + "; ");
-                    }
-                    Log.i("Goal", str);
-
-                } while (c.moveToNext());
-            }
-        }
-        c.close();
-        dbHelper.close();
+        goalDAO.loadAllGoals(DAO.FAKE_USER_ID);
     }
 }

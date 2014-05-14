@@ -40,7 +40,7 @@ public class GoalLogic
         List<Goal> goals = goalDAO.loadAllGoals(DAO.FAKE_USER_ID);
         for (Goal goal : goals)
         {
-            if (isGoalActive(goal))
+            if (isGoalActive(goal) && goal.getParentId() <= 0)
             {
                 result.add(goal);
             }

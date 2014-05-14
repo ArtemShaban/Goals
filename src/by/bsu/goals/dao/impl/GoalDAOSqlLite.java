@@ -146,8 +146,8 @@ public class GoalDAOSqlLite implements GoalDAO
         ContentValues contentValues = new ContentValues();
         contentValues.put(TITLE, goal.getTitle());
         contentValues.put(DESCRIPTION, goal.getDescription());
-        contentValues.put(STARTED_AT, goal.getStartedAt().toString());
-        contentValues.put(FINISH_AT, goal.getFinishedAt().toString());
+        contentValues.put(STARTED_AT, goal.getStartedAt().getTime());
+        contentValues.put(FINISH_AT, goal.getFinishedAt().getTime());
         contentValues.put(CATEGORY_ID, goal.getCategoryId());
         contentValues.put(USER_ID, goal.getUserId());
         contentValues.put(PARENT_ID, goal.getParentId());
