@@ -39,7 +39,7 @@ public class GoalActivity extends Activity
         goalLogic = new GoalLogic(new GoalDAOSqlLite(DBHelper.instance()));
         goalId = getIntent().getExtras().getLong(LauncherActivity.GOAL_ID_EXTRA);
 
-        ArrayAdapter<Goal> adapter = new ArrayAdapter<Goal>(this, android.R.layout.simple_expandable_list_item_1, goalLogic.getSortedChildren(goalId));
+        ArrayAdapter<Goal> adapter = new ArrayAdapter<Goal>(this, android.R.layout.simple_list_item_1, goalLogic.getSortedChildren(goalId));
         steps.setAdapter(adapter);
         steps.setOnItemClickListener(new AdapterView.OnItemClickListener()
         {

@@ -77,6 +77,23 @@ public class LauncherActivity extends Activity
         goalDAO.saveGoal(goal);
         goalDAO.saveGoal(goal);
         goalDAO.saveGoal(goal);
+        goalDAO.saveGoal(goal);
+        goalDAO.saveGoal(goal);
+        goalDAO.saveGoal(goal);
+        goalDAO.saveGoal(goal);
+        goalDAO.saveGoal(goal);
+        goalDAO.saveGoal(goal);
+        goalDAO.saveGoal(goal);
+        goalDAO.saveGoal(goal);
+        goalDAO.saveGoal(goal);
+        goalDAO.saveGoal(goal);
+        goalDAO.saveGoal(goal);
+        goalDAO.saveGoal(goal);
+        goalDAO.saveGoal(goal);
+        goalDAO.saveGoal(goal);
+        goalDAO.saveGoal(goal);
+        goalDAO.saveGoal(goal);
+        goalDAO.saveGoal(goal);
 
         goalDAO.loadAllGoals(DAO.FAKE_USER_ID);
     }
