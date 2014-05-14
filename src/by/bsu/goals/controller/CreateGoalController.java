@@ -9,7 +9,7 @@ import android.view.View.OnClickListener;
  *
  */
 
-public class StartActivityController implements OnClickListener{
+public class CreateGoalController implements OnClickListener{
 
 	@Override
 	public void onClick(View v) {
