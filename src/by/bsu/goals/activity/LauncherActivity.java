@@ -1,12 +1,8 @@
 package by.bsu.goals.activity;
 
 import android.app.Activity;
-import android.content.ContentValues;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.util.Log;
 import by.bsu.goals.R;
 import by.bsu.goals.dao.DAO;
 import by.bsu.goals.dao.DBHelper;
@@ -32,7 +28,8 @@ public class LauncherActivity extends Activity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        deleteDatabase("goals");
+        deleteDatabase("goals");                        //TODO delete
+
         DBHelper.initDBHelper(this);
 
         dbHelper = DBHelper.instance();
@@ -95,6 +92,10 @@ public class LauncherActivity extends Activity
         goalDAO.saveGoal(goal);
         goalDAO.saveGoal(goal);
 
-        goalDAO.loadAllGoals(DAO.FAKE_USER_ID);
+        List<Goal> goals = goalDAO.loadAllGoals(DAO.FAKE_USER_ID);
+        for (Goal goal1 : goals)
+        {
+            System.out.println("qwq");
+        }
     }
 }

@@ -23,7 +23,6 @@ public class GoalLogic
 
     public List<Goal> getSortedChildren(long goalId)
     {
-
         List<Goal> children = goalDAO.loadChildren(goalId);
         if (children != null)
         {
@@ -40,7 +39,7 @@ public class GoalLogic
         List<Goal> goals = goalDAO.loadAllGoals(DAO.FAKE_USER_ID);
         for (Goal goal : goals)
         {
-            if (isGoalActive(goal) && goal.getParentId() <= 0)
+            if (isGoalActive(goal) && goal.getParentId() == null)
             {
                 result.add(goal);
             }

@@ -1,5 +1,7 @@
 package by.bsu.goals.data;
 
+import by.bsu.goals.log.Logger;
+
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
@@ -9,29 +11,80 @@ import java.util.ArrayList;
  */
 public class Goal implements Comparable
 {
+    private final Logger logger = new Logger(this);
     private long id;
     private String title;
     private String description;
     private Timestamp startedAt;
     private Timestamp finishedAt;
-    private long categoryId;
-    private long userId;
-    private long parentId;
-    private int position;
-
+    private Long categoryId;
+    private Long userId;
+    private Long parentId;
+    private Integer position;
     private ArrayList<Goal> steps;
 
     public Goal()
     {
     }
 
-    public Goal(long id, String title, Timestamp startedAt, Timestamp finishedAt, long userId)
+    public Goal(long id, String title, Timestamp startedAt, Timestamp finishedAt, Long userId)
     {
         this.id = id;
         this.title = title;
         this.startedAt = startedAt;
         this.finishedAt = finishedAt;
         this.userId = userId;
+    }
+
+
+    @Override
+    public String toString()
+    {
+        return "Goal{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", startedAt=" + startedAt +
+                ", finishedAt=" + finishedAt +
+                ", categoryId=" + categoryId +
+                ", userId=" + userId +
+                ", parentId=" + getParentId() +
+                ", position=" + position +
+                ", steps=" + steps +
+                '}';
+    }
+
+    @Override
+    public int compareTo(Object another)
+    {
+        if (another instanceof Goal)
+        {
+            Goal anotherGoal = (Goal) another;
+            if (anotherGoal.getPosition() != null && getPosition() != null)
+            {
+                if (anotherGoal.getPosition() > getPosition())
+                {
+                    return 1;
+                }
+                else if (anotherGoal.getPosition() == getPosition())
+                {
+                    return 0;
+                }
+                else
+                {
+                    return -1;
+                }
+            }
+            else
+            {
+                logger.e("Position is null", new Throwable());
+                return 0;
+            }
+        }
+        else
+        {
+            throw new RuntimeException("Impossible compare with another type.");
+        }
     }
 
     public long getId()
@@ -84,92 +137,53 @@ public class Goal implements Comparable
         this.finishedAt = finishedAt;
     }
 
-    //TODO Realize categories 
-    public long getCategoryId()
+    public Long getCategoryId()
     {
         return categoryId;
     }
 
-    public void setCategoryId(long categoryId)
+    public void setCategoryId(Long categoryId)
     {
         this.categoryId = categoryId;
     }
 
-    public long getUserId()
+    public Long getUserId()
     {
         return userId;
     }
 
-    public void setUserId(long userId)
+    public void setUserId(Long userId)
     {
         this.userId = userId;
     }
 
-    public long getParentId()
+    public Long getParentId()
     {
         return parentId;
     }
 
-    public void setParentId(long parentId)
+    public void setParentId(Long parentId)
     {
         this.parentId = parentId;
     }
 
-    public int getPosition()
+    public Integer getPosition()
     {
         return position;
     }
 
-    public void setPosition(int position)
+    public void setPosition(Integer position)
     {
         this.position = position;
+    }
+
+    public ArrayList<Goal> getSteps()
+    {
+        return steps;
     }
 
     public void setSteps(ArrayList<Goal> steps)
     {
         this.steps = steps;
-    }
-
-
-    @Override
-    public String toString()
-    {
-        return "Goal{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                ", startedAt=" + startedAt +
-                ", finishedAt=" + finishedAt +
-                ", categoryId=" + categoryId +
-                ", userId=" + userId +
-                ", parentId=" + parentId +
-                ", position=" + position +
-                ", steps=" + steps +
-                '}';
-    }
-
-    @Override
-    public int compareTo(Object another)
-    {
-        if (another instanceof Goal)
-        {
-            Goal anotherGoal = (Goal) another;
-            if (anotherGoal.getPosition() > getPosition())
-            {
-                return 1;
-            }
-            else if (anotherGoal.getPosition() == getPosition())
-            {
-                return 0;
-            }
-            else
-            {
-                return -1;
-            }
-        }
-        else
-        {
-            throw new RuntimeException("Impossible compare with another type.");
-        }
     }
 }

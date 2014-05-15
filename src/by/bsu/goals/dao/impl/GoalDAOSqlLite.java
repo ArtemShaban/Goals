@@ -1,17 +1,16 @@
 package by.bsu.goals.dao.impl;
 
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-
 import by.bsu.goals.dao.GoalDAO;
-import by.bsu.goals.log.Logger;
 import by.bsu.goals.data.Goal;
+import by.bsu.goals.log.Logger;
+
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Artem Shaban
@@ -163,10 +162,14 @@ public class GoalDAOSqlLite implements GoalDAO
         goal.setDescription(cursor.getString(cursor.getColumnIndex(DESCRIPTION)));
         goal.setStartedAt(new Timestamp(cursor.getLong(cursor.getColumnIndex(STARTED_AT))));
         goal.setFinishedAt(new Timestamp(cursor.getLong(cursor.getColumnIndex(FINISH_AT))));
-        goal.setCategoryId(cursor.getLong(cursor.getColumnIndex(CATEGORY_ID)));
-        goal.setUserId(cursor.getLong(cursor.getColumnIndex(USER_ID)));
-        goal.setParentId(cursor.getLong(cursor.getColumnIndex(PARENT_ID)));
-        goal.setPosition(cursor.getInt(cursor.getColumnIndex(POSITION)));
+        long categoryId = cursor.getLong(cursor.getColumnIndex(CATEGORY_ID));
+        goal.setCategoryId(categoryId != 0 ? categoryId : null);
+        long userId = cursor.getLong(cursor.getColumnIndex(USER_ID));
+        goal.setUserId(userId != 0 ? userId : null);
+        long parentId = cursor.getLong(cursor.getColumnIndex(PARENT_ID));
+        goal.setParentId(parentId != 0 ? parentId : null);
+        int position = cursor.getInt(cursor.getColumnIndex(POSITION));
+        goal.setPosition(position != 0 ? position : null);
         return goal;
     }
 
