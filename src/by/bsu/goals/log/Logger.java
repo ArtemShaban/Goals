@@ -12,7 +12,7 @@ public class Logger
     private String className;
 
     @SuppressWarnings("rawtypes")
-	public Logger(Class clazz)
+    public Logger(Class clazz)
     {
         className = clazz.getName();
     }
@@ -29,11 +29,11 @@ public class Logger
 
     public void i(String msg)
     {
-        Log.i(TAG, className + msg);
+        Log.i(TAG, className + " " + msg);
     }
 
     public void e(String msg, Throwable throwable)
     {
-        Log.e(TAG, className + msg, throwable);
+        Log.e(TAG, className + " " + msg, throwable);
     }
 }

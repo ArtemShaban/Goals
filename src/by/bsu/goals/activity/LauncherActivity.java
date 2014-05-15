@@ -63,35 +63,25 @@ public class LauncherActivity extends Activity
     private void fillDatabase()
     {
         Goal goal = new Goal();
-        goal.setTitle("Title");
+        goal.setTitle("Goal");
         goal.setStartedAt(new Timestamp(1391990400000L));
         goal.setFinishedAt(new Timestamp(1418169600000L));
         goal.setUserId(DAO.FAKE_USER_ID);
         long goalId = goalDAO.saveGoal(goal);
         goal.setParentId(goalId);
         goalDAO.saveGoal(goal);
-        goalDAO.saveGoal(goal);
-        goalDAO.saveGoal(goal);
-        goalDAO.saveGoal(goal);
-        goalDAO.saveGoal(goal);
-        goalDAO.saveGoal(goal);
-        goalDAO.saveGoal(goal);
-        goalDAO.saveGoal(goal);
-        goalDAO.saveGoal(goal);
-        goalDAO.saveGoal(goal);
-        goalDAO.saveGoal(goal);
-        goalDAO.saveGoal(goal);
-        goalDAO.saveGoal(goal);
-        goalDAO.saveGoal(goal);
-        goalDAO.saveGoal(goal);
-        goalDAO.saveGoal(goal);
-        goalDAO.saveGoal(goal);
-        goalDAO.saveGoal(goal);
-        goalDAO.saveGoal(goal);
-        goalDAO.saveGoal(goal);
-        goalDAO.saveGoal(goal);
-        goalDAO.saveGoal(goal);
-
+        for (int i = 0; i < 13; i++)
+        {
+            goal.setTitle("Child of goal(id =" + goalId + ") " + i);
+            goalDAO.saveGoal(goal);
+        }
+        long childId = goalDAO.saveGoal(goal);
+        goal.setParentId(childId);
+        for (int i = 0; i < 5; i++)
+        {
+            goal.setTitle("Child of child(id =" + childId + ") " + i);
+            goalDAO.saveGoal(goal);
+        }
         List<Goal> goals = goalDAO.loadAllGoals(DAO.FAKE_USER_ID);
         for (Goal goal1 : goals)
         {

@@ -1,6 +1,8 @@
 package by.bsu.goals.controller;
 
+import by.bsu.goals.dao.DBHelper;
 import by.bsu.goals.dao.GoalDAO;
+import by.bsu.goals.dao.impl.GoalDAOSqlLite;
 import by.bsu.goals.data.Goal;
 import by.bsu.goals.logic.GoalLogic;
 
@@ -17,18 +19,21 @@ public class GoalController implements GoalView.Callback
     private GoalLogic logic;
     private GoalDAO goalDAO;
 
-    public GoalController(GoalView view, GoalLogic logic, GoalDAO goalDAO)
+    public GoalController(GoalView view)
     {
         this.view = view;
-        this.logic = logic;
-        this.goalDAO = goalDAO;
+        goalDAO = new GoalDAOSqlLite(DBHelper.instance());
+        logic = new GoalLogic(goalDAO);
+        goalsStack = new Stack<Goal>();
     }
 
     @Override
     public void setGoal(Long goalId)
     {
-        Goal goal = goalDAO.loadGoal(goalId);
-//        if(goal.getParentId())
+        Goal goal = goalDAO.loadGoalWithChildren(goalId);
+        goalsStack.add(goal);
+        view.updateInfo(goal.getTitle(), goal.getDescription(), goal.getStartedAt(), goal.getFinishedAt());
+        view.showSteps(goal.getSteps());
     }
 
     @Override

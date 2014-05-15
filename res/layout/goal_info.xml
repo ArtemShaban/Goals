@@ -21,6 +21,22 @@
             android:text="Description"
             android:gravity="center"
             android:layout_margin="@dimen/margin_view"/>
+    <TextView
+            android:id="@+id/goal_info_started_at"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            style="@android:style/TextAppearance.DeviceDefault.Medium"
+            android:text="Started at"
+            android:gravity="center"
+            android:layout_margin="@dimen/margin_view"/>
+    <TextView
+            android:id="@+id/goal_info_finish_at"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            style="@android:style/TextAppearance.DeviceDefault.Medium"
+            android:text="Finish at"
+            android:gravity="center"
+            android:layout_margin="@dimen/margin_view"/>
 
     <ListView
             android:id="@+id/goal_info_steps"
