@@ -32,13 +32,27 @@ public class GoalController implements GoalView.Callback
     {
         Goal goal = goalDAO.loadGoalWithChildren(goalId);
         goalsStack.add(goal);
-        view.updateInfo(goal.getTitle(), goal.getDescription(), goal.getStartedAt(), goal.getFinishedAt());
-        view.showSteps(goal.getSteps());
+        updateGoalView(goal);
     }
 
     @Override
     public void backClicked()
     {
+        goalsStack.pop();
+        if (goalsStack.size() > 0)
+        {
+            Goal currentGoal = goalsStack.peek();
+            updateGoalView(currentGoal);
+        }
+        else
+        {
+            view.finish();
+        }
+    }
 
+    private void updateGoalView(Goal goal)
+    {
+        view.updateInfo(goal.getTitle(), goal.getDescription(), goal.getStartedAt(), goal.getFinishedAt());
+        view.showSteps(goal.getSteps());
     }
 }

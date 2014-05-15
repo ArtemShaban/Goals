@@ -10,7 +10,7 @@ import java.util.List;
  * Created by Artem Shaban
  * Since 2014 Май 15.
  */
-public interface GoalView
+public interface GoalView extends View
 {
     public void updateInfo(String title, String description, Timestamp startAt, Timestamp finishAt);
     public void showSteps(@Nullable List<Goal> steps);

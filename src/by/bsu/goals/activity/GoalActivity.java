@@ -86,4 +86,10 @@ public class GoalActivity extends Activity implements GoalView
             stepsListView.setVisibility(View.GONE);
         }
     }
+
+    @Override
+    public void onBackPressed()
+    {
+        callback.backClicked();
+    }
 }
