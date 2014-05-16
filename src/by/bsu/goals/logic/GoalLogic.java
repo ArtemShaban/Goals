@@ -37,14 +37,18 @@ public class GoalLogic
         ArrayList<Goal> result = new ArrayList<Goal>();
 
         List<Goal> goals = goalDAO.loadAllGoals(DAO.FAKE_USER_ID);
-        for (Goal goal : goals)
+        if (goals != null)
         {
-            if (isGoalActive(goal) && goal.getParentId() == null)
+            for (Goal goal : goals)
             {
-                result.add(goal);
+                if (isGoalActive(goal) && goal.getParentId() == null)
+                {
+                    result.add(goal);
+                }
             }
+            return result;
         }
-        return result.size() > 0 ? result : null;
+        return null;
     }
 
     private boolean isGoalActive(Goal goal)
