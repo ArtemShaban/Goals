@@ -46,7 +46,7 @@ public class GoalController implements GoalView.Callback
         }
         else
         {
-            view.finish();
+            view.finishView();
         }
     }
 

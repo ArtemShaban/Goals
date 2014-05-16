@@ -1,7 +1,9 @@
 package by.bsu.goals.activity;
 
-import android.app.Activity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -12,7 +14,6 @@ import by.bsu.goals.controller.GoalController;
 import by.bsu.goals.controller.GoalView;
 import by.bsu.goals.data.Goal;
 import by.bsu.goals.log.Logger;
-import org.jetbrains.annotations.Nullable;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -21,7 +22,7 @@ import java.util.List;
  * Created by Artem Shaban
  * Since 2014 MAY 14.
  */
-public class GoalActivity extends Activity implements GoalView
+public class GoalActivity extends ActionBarActivity implements GoalView
 {
     private final Logger logger = new Logger(this);
     private TextView titleTextView;
@@ -37,6 +38,10 @@ public class GoalActivity extends Activity implements GoalView
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.goal_info);
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
         goalId = getIntent().getExtras().getLong(LauncherActivity.GOAL_ID_EXTRA);
         callback = new GoalController(this);
 
@@ -58,6 +63,20 @@ public class GoalActivity extends Activity implements GoalView
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        // Handle presses on the action bar items
+        switch (item.getItemId())
+        {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
     protected void onStart()
     {
         super.onStart();
@@ -74,7 +93,7 @@ public class GoalActivity extends Activity implements GoalView
     }
 
     @Override
-    public void showSteps(@Nullable List<Goal> steps)
+    public void showSteps(List<Goal> steps)
     {
         if (steps != null)
         {
@@ -91,5 +110,11 @@ public class GoalActivity extends Activity implements GoalView
     public void onBackPressed()
     {
         callback.backClicked();
+    }
+
+    @Override
+    public void finishView()
+    {
+        finish();
     }
 }
