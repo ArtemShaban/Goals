@@ -32,7 +32,6 @@ public class GoalController implements GoalView.Callback
     {
         Goal goal = goalDAO.loadGoalWithChildren(goalId);
         goalsStack.add(goal);
-        updateGoalView(goal);
     }
 
     @Override
@@ -48,6 +47,19 @@ public class GoalController implements GoalView.Callback
         {
             view.finishView();
         }
+    }
+
+    @Override
+    public void onViewAttach()
+    {
+        updateGoalView(goalsStack.peek());
+    }
+
+    @Override
+    public void onStepChosen(long stepId)
+    {
+        setGoal(stepId);
+        updateGoalView(goalsStack.peek());
     }
 
     private void updateGoalView(Goal goal)

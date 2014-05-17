@@ -44,6 +44,7 @@ public class GoalActivity extends ActionBarActivity implements GoalView
 
         goalId = getIntent().getExtras().getLong(LauncherActivity.GOAL_ID_EXTRA);
         callback = new GoalController(this);
+        callback.setGoal(goalId);
 
         titleTextView = (TextView) findViewById(R.id.goal_info_title);
         descriptionTextView = (TextView) findViewById(R.id.goal_info_description);
@@ -57,7 +58,7 @@ public class GoalActivity extends ActionBarActivity implements GoalView
             {
                 Goal step = (Goal) parent.getAdapter().getItem(position);
                 logger.i("Step clicked: " + step.toString());
-                callback.setGoal(step.getId());
+                callback.onStepChosen(step.getId());
             }
         });
     }
@@ -80,7 +81,13 @@ public class GoalActivity extends ActionBarActivity implements GoalView
     protected void onStart()
     {
         super.onStart();
-        callback.setGoal(goalId);
+        callback.onViewAttach();
+    }
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
     }
 
     @Override
