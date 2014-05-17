@@ -1,7 +1,9 @@
 package by.bsu.goals.logic;
 
 import by.bsu.goals.dao.DAO;
+import by.bsu.goals.dao.DBHelper;
 import by.bsu.goals.dao.GoalDAO;
+import by.bsu.goals.dao.impl.GoalDAOSqlLite;
 import by.bsu.goals.data.Goal;
 
 import java.util.ArrayList;
@@ -16,9 +18,9 @@ public class GoalLogic
 {
     private final GoalDAO goalDAO;
 
-    public GoalLogic(GoalDAO goalDAO)
+    public GoalLogic()
     {
-        this.goalDAO = goalDAO;
+        this.goalDAO = new GoalDAOSqlLite(DBHelper.instance());
     }
 
     public List<Goal> getSortedChildren(long goalId)
