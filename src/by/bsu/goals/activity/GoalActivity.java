@@ -3,6 +3,7 @@ package by.bsu.goals.activity;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.util.DisplayMetrics;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -14,6 +15,7 @@ import by.bsu.goals.controller.GoalController;
 import by.bsu.goals.controller.GoalView;
 import by.bsu.goals.data.Goal;
 import by.bsu.goals.log.Logger;
+import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -25,6 +27,7 @@ import java.util.List;
 public class GoalActivity extends ActionBarActivity implements GoalView
 {
     private final Logger logger = new Logger(this);
+    ListView listView;
     private TextView titleTextView;
     private TextView descriptionTextView;
     private TextView startAtTextView;
@@ -41,6 +44,19 @@ public class GoalActivity extends ActionBarActivity implements GoalView
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
+
+        SlidingMenu menu = new SlidingMenu(this);
+        menu.setMode(SlidingMenu.LEFT);
+        menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        menu.setBehindOffset((int) (metrics.widthPixels * 0.4));
+        menu.setBehindScrollScale(1f);
+        menu.setFadeDegree(0.35f);
+        menu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
+
+        listView = new ListView(this);
+        menu.setMenu(listView);
 
         goalId = getIntent().getExtras().getLong(LauncherActivity.GOAL_ID_EXTRA);
         callback = new GoalController(this);
@@ -106,6 +122,7 @@ public class GoalActivity extends ActionBarActivity implements GoalView
         {
             stepsListView.setAdapter(new ArrayAdapter<Goal>(this, android.R.layout.simple_list_item_1, steps));
             stepsListView.setVisibility(View.VISIBLE);
+            listView.setAdapter(stepsListView.getAdapter());
         }
         else
         {
