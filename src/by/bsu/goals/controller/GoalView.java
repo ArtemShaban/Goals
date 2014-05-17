@@ -1,7 +1,6 @@
 package by.bsu.goals.controller;
 
 import by.bsu.goals.data.Goal;
-import org.jetbrains.annotations.Nullable;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -13,7 +12,7 @@ import java.util.List;
 public interface GoalView extends View
 {
     public void updateInfo(String title, String description, Timestamp startAt, Timestamp finishAt);
-    public void showSteps(@Nullable List<Goal> steps);
+    public void showSteps(List<Goal> steps);
 
     interface Callback
     {

@@ -36,7 +36,7 @@ public class LauncherActivity extends Activity
         goalDAO = new GoalDAOSqlLite(dbHelper);
         goalLogic = new GoalLogic(goalDAO);
 
-        fillDatabase();
+        //fillDatabase();
 
         List<Goal> activeGoals = goalLogic.getActiveGoals();
         Intent intent;
@@ -47,7 +47,7 @@ public class LauncherActivity extends Activity
         }
         else
         {
-            intent = new Intent(this, CreateGoalActivity.class);
+            intent = new Intent(this, EditGoalActivity.class);
         }
         startActivity(intent);
     }

@@ -12,7 +12,6 @@ import by.bsu.goals.controller.GoalController;
 import by.bsu.goals.controller.GoalView;
 import by.bsu.goals.data.Goal;
 import by.bsu.goals.log.Logger;
-import org.jetbrains.annotations.Nullable;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -73,8 +72,7 @@ public class GoalActivity extends Activity implements GoalView
         finishAtTextView.setText(finishAt.toString());
     }
 
-    @Override
-    public void showSteps(@Nullable List<Goal> steps)
+    public void showSteps(List<Goal> steps)
     {
         if (steps != null)
         {

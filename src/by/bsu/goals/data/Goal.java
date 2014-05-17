@@ -2,6 +2,7 @@ package by.bsu.goals.data;
 
 import by.bsu.goals.log.Logger;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
@@ -9,7 +10,7 @@ import java.util.ArrayList;
  * Created by Artem Shaban
  * Since 2014 MAY 11.
  */
-public class Goal implements Comparable
+public class Goal implements Comparable, Serializable
 {
     private final Logger logger = new Logger(this);
     private long id;
