@@ -17,11 +17,13 @@ import java.util.List;
 public class LauncherActivity extends Activity
 {
     public static String GOAL_ID_EXTRA = "goalId";
-
-    private DBHelper dbHelper;
-    private GoalDAO goalDAO;
-
+    private static State state = State.NONE;
     private GoalLogic goalLogic;
+
+    public static void setState(State newState)
+    {
+        state = newState;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -31,37 +33,59 @@ public class LauncherActivity extends Activity
         deleteDatabase("goals");                        //TODO delete
 
         DBHelper.initDBHelper(this);
+        goalLogic = new GoalLogic();
 
-        dbHelper = DBHelper.instance();
-        goalDAO = new GoalDAOSqlLite(dbHelper);
-        goalLogic = new GoalLogic(goalDAO);
+     //fillDatabase();
 
-        //fillDatabase();
+    }
 
-        List<Goal> activeGoals = goalLogic.getActiveGoals();
-        Intent intent;
-        if (activeGoals != null && activeGoals.size() > 0)
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+        Intent intent = null;
+
+        switch (state)
         {
-            intent = new Intent(this, GoalActivity.class);
-            intent.putExtra("goalId", activeGoals.get(0).getId());
+            case EDIT_GOAL:
+                intent = new Intent(this, EditGoalActivity.class);
+                break;
+            case GOAL_INFO:
+                intent = new Intent(this, GoalActivity.class);
+                break;
+            case EXIT:
+                finish();
+                break;
+            case NONE:
+                List<Goal> activeGoals = goalLogic.getActiveGoals();
+                if (activeGoals != null && activeGoals.size() > 0)
+                {
+                    intent = new Intent(this, GoalActivity.class);
+                    intent.putExtra("goalId", activeGoals.get(0).getId());
+                }
+                else
+                {
+                    intent = new Intent(this, EditGoalActivity.class);
+                }
         }
-        else
+        if (intent != null)
         {
             intent = new Intent(this, EditGoalActivity.class);
+            startActivity(intent);
         }
-        startActivity(intent);
     }
 
     @Override
     protected void onDestroy()
     {
         super.onDestroy();
-        goalDAO.releaseResources();
-        dbHelper.close();
+        DBHelper.release();
+        state = State.NONE;
     }
 
     private void fillDatabase()
     {
+        GoalDAO goalDAO = new GoalDAOSqlLite(DBHelper.instance());
         Goal goal = new Goal();
         goal.setTitle("Goal");
         goal.setStartedAt(new Timestamp(1391990400000L));
@@ -87,5 +111,10 @@ public class LauncherActivity extends Activity
         {
             System.out.println("qwq");
         }
+    }
+
+    public static enum State
+    {
+        GOAL_INFO, EDIT_GOAL, EXIT, NONE
     }
 }

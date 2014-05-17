@@ -19,9 +19,14 @@ public class DBHelper extends SQLiteOpenHelper
     private static final int DB_VERSION = 1;
     private static final String DB_NAME = "goals";
     private static final Logger logger = new Logger("DBHelper");
+    private static DBHelper instance;
     private Context context;
 
-    private static DBHelper instance;
+    private DBHelper(Context context)
+    {
+        super(context, DB_NAME, null, DB_VERSION);
+        this.context = context;
+    }
 
     public static DBHelper instance()
     {
@@ -48,10 +53,9 @@ public class DBHelper extends SQLiteOpenHelper
 
     }
 
-    private DBHelper(Context context)
+    public static void release()
     {
-        super(context, DB_NAME, null, DB_VERSION);
-        this.context = context;
+        instance.close();
     }
 
     @Override

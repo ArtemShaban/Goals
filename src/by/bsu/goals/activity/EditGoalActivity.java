@@ -2,8 +2,6 @@ package by.bsu.goals.activity;
 
 import android.app.ActionBar;
 import android.app.Activity;
-import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.os.Bundle;
 import android.view.ViewGroup;
 import android.widget.TextView;

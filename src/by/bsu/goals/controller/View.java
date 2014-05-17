@@ -6,5 +6,5 @@ package by.bsu.goals.controller;
  */
 public interface View
 {
-    public void finish();
+    public void finishView();
 }
