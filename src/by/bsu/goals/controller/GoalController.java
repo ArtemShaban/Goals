@@ -1,5 +1,6 @@
 package by.bsu.goals.controller;
 
+import by.bsu.goals.activity.LauncherActivity;
 import by.bsu.goals.dao.DBHelper;
 import by.bsu.goals.dao.GoalDAO;
 import by.bsu.goals.dao.impl.GoalDAOSqlLite;
@@ -23,7 +24,7 @@ public class GoalController implements GoalView.Callback
     {
         this.view = view;
         goalDAO = new GoalDAOSqlLite(DBHelper.instance());
-        logic = new GoalLogic(goalDAO);
+        logic = new GoalLogic();
         goalsStack = new Stack<Goal>();
     }
 
@@ -45,6 +46,7 @@ public class GoalController implements GoalView.Callback
         }
         else
         {
+            LauncherActivity.setState(LauncherActivity.State.EXIT);
             view.finishView();
         }
     }
