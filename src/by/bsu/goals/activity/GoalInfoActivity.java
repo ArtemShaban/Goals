@@ -37,6 +37,7 @@ public class GoalInfoActivity extends ActionBarActivity implements GoalView
     private long goalId;
     private Callback callback;
 
+    private SlidingMenu sideMenu;
     private ListView sideMenuListView;
     private SideMenuAdapter.OnGoalCLickedListener goalCLickedListener = new SideMenuAdapter.OnGoalCLickedListener()
     {
@@ -56,23 +57,23 @@ public class GoalInfoActivity extends ActionBarActivity implements GoalView
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        SlidingMenu menu = new SlidingMenu(this);
-        menu.setMode(SlidingMenu.LEFT);
-        menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+        sideMenu = new SlidingMenu(this);
+        sideMenu.setMode(SlidingMenu.LEFT);
+        sideMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
         int behindOffset = (int) (metrics.widthPixels * 0.4);
-        menu.setBehindOffset(behindOffset);
-        menu.setBehindScrollScale(1f);
-        menu.setFadeDegree(0.35f);
-        menu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
+        sideMenu.setBehindOffset(behindOffset);
+        sideMenu.setBehindScrollScale(1f);
+        sideMenu.setFadeDegree(0.35f);
+        sideMenu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
 
         sideMenuListView = new ListView(this);
         List<Goal> activeGoalsWithChildren = new GoalLogic().getActiveGoalsWithChildren();
         SideMenuAdapter sideMenuAdapter = new SideMenuAdapter(this, activeGoalsWithChildren, metrics.widthPixels - behindOffset);
         sideMenuAdapter.setGoalCLickedListener(goalCLickedListener);
         sideMenuListView.setAdapter(sideMenuAdapter);
-        menu.setMenu(sideMenuListView);
+        sideMenu.setMenu(sideMenuListView);
 
         goalId = getIntent().getExtras().getLong(LauncherActivity.GOAL_ID_EXTRA);
         callback = new GoalController(this);
@@ -102,7 +103,14 @@ public class GoalInfoActivity extends ActionBarActivity implements GoalView
         switch (item.getItemId())
         {
             case android.R.id.home:
-                onBackPressed();
+                if (sideMenu.isMenuShowing())
+                {
+                    sideMenu.showContent();
+                }
+                else
+                {
+                    sideMenu.showMenu();
+                }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
