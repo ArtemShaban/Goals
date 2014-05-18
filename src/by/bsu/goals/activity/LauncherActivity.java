@@ -91,6 +91,7 @@ public class LauncherActivity extends Activity
         goal.setStartedAt(new Timestamp(1391990400000L));
         goal.setFinishedAt(new Timestamp(1418169600000L));
         goal.setUserId(DAO.FAKE_USER_ID);
+        goal.setDescription("Description Description Description Descriptionv Description))) a big big description");
         long goalId = goalDAO.saveGoal(goal);
         goal.setParentId(goalId);
         goalDAO.saveGoal(goal);
