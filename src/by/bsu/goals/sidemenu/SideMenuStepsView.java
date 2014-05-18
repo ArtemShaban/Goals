@@ -46,7 +46,6 @@ public class SideMenuStepsView extends LinearLayout
         for (final Goal step : steps)
         {
             LinearLayout view = (LinearLayout) inflater.inflate(R.layout.side_menu_step_item, null);
-            view.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.border));
             title = (TextView) view.findViewById(R.id.side_menu_step_title);
             title.setText(step.getTitle());
             startAt = (TextView) view.findViewById(R.id.side_menu_step_started_at);

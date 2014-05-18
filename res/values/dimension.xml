@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="margin_view">4dp</dimen>
-    <dimen name="margin_side_menu">8dp</dimen>
+    <dimen name="padding_right_side_menu">8dp</dimen>
+    <dimen name="padding_left_side_menu">8dp</dimen>
+    <dimen name="padding_top_side_menu_item">4dp</dimen>
 </resources>
