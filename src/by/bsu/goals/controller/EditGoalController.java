@@ -2,7 +2,6 @@ package by.bsu.goals.controller;
 
 import java.sql.Timestamp;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import android.annotation.SuppressLint;
@@ -20,6 +19,9 @@ import android.widget.TimePicker;
 import by.bsu.goals.R;
 import by.bsu.goals.activity.EditGoalActivity;
 import by.bsu.goals.dao.DAO;
+import by.bsu.goals.dao.DBHelper;
+import by.bsu.goals.dao.GoalDAO;
+import by.bsu.goals.dao.impl.GoalDAOSqlLite;
 import by.bsu.goals.data.Goal;
 import by.bsu.goals.log.Logger;
 import by.bsu.goals.util.Util;
@@ -30,10 +32,10 @@ import by.bsu.goals.util.Util;
  * 
  */
 
+@SuppressLint("NewApi")
 public class EditGoalController implements OnClickListener, OnDateSetListener,
 		OnTimeSetListener {
 
-	public static final int DIALOG_DATE = 1;
 	public static final int FINISHED_AT = 1;
 	public static final int STARTED_AT = 2;
 	public static final boolean HOURS_TIME_FROMAT_24 = true;
@@ -41,10 +43,10 @@ public class EditGoalController implements OnClickListener, OnDateSetListener,
 	private Goal goal;
 	private Goal parentGoal;
 	private EditGoalActivity activity;
-	
 	// uses to define witch textEdit view is clicked
 	private int currentTypeFlag = 0;
 	private static Logger logger = new Logger(EditGoalController.class);
+	private static GoalDAO goalDao = new GoalDAOSqlLite(DBHelper.instance());
 
 	@Override
 	public void onClick(View v) {
@@ -91,19 +93,33 @@ public class EditGoalController implements OnClickListener, OnDateSetListener,
 			default:
 				return;
 			}
-			
+			if (!Util
+					.isValidDates(
+							activity.changeStartDate.getText().toString(),
+							activity.changeFinishDate.getText().toString()))
+				revertDateChanges();
 		} catch (ParseException pe) {
 			logger.e("Incorrect string for parse to Date", pe);
+		}
+
+	}
+
+	private void revertDateChanges() {
+		if (currentTypeFlag == STARTED_AT) {
+			activity.changeStartDate.setText(activity.changeFinishDate
+					.getText());
+		} else {
+			activity.changeFinishDate.setText(activity.changeStartDate
+					.getText());
 		}
 	}
 
 	@Override
 	public void onDateSet(DatePicker view, int year, int monthOfYear,
-			int dayOfMonth) 
-	{
-		//Date started at 1900 and DatePicker return 19..
-		Date date = new Date(year-1900, monthOfYear, dayOfMonth);
-		if (((Integer) view.getTag()).equals(FINISHED_AT)){
+			int dayOfMonth) {
+		// Date started at 1900 and DatePicker return 19../
+		Date date = new Date(year - 1900, monthOfYear, dayOfMonth);
+		if (((Integer) view.getTag()).equals(FINISHED_AT)) {
 			activity.changeFinishDate.setText(Util.formatDateToString(
 					Util.DATE_TEMPLATE_dd_MMM_yyyy, date));
 			logger.i(activity.changeFinishDate.getText().toString());
@@ -125,15 +141,24 @@ public class EditGoalController implements OnClickListener, OnDateSetListener,
 		@Override
 		public Dialog onCreateDialog(Bundle savedInstanceState) {
 			Date date;
-			if (type == FINISHED_AT)
-				date = getGoal().getFinishedAt();
-			else
-				date = getGoal().getStartedAt();
-			DatePickerDialog dialogw = new DatePickerDialog(activity,
-					EditGoalController.this, date.getYear(), date.getMonth(),
-					date.getDay());
-			dialogw.getDatePicker().setTag(type);
-			return dialogw;
+			try {
+				if (type == FINISHED_AT)
+					date = Util.parseStringToDate(
+							Util.DATE_TEMPLATE_dd_MMM_yyyy_kk_mm,
+							activity.changeFinishDate.getText().toString());
+				else
+					date = Util.parseStringToDate(
+							Util.DATE_TEMPLATE_dd_MMM_yyyy_kk_mm,
+							activity.changeStartDate.getText().toString());
+				DatePickerDialog dialogw = new DatePickerDialog(activity,
+						EditGoalController.this, date.getYear() + 1900,
+						date.getMonth(), date.getDay());
+				dialogw.getDatePicker().setTag(type);
+				return dialogw;
+			} catch (ParseException e) {
+				logger.e("Error rised when parse string to date", e);
+				return null;
+			}
 		}
 	}
 
@@ -167,6 +192,8 @@ public class EditGoalController implements OnClickListener, OnDateSetListener,
 	public Goal getGoal() {
 		if (goal == null) {
 			this.goal = new Goal();
+			this.goal.setTitle("");
+			this.goal.setDescription("");
 			this.goal.setStartedAt(new Timestamp(System.currentTimeMillis()));
 			this.goal.setFinishedAt(new Timestamp(System.currentTimeMillis()
 					+ DEFAULT_DIFFERENCE_BETWEEN_STARTAND_FINISH));
@@ -178,6 +205,25 @@ public class EditGoalController implements OnClickListener, OnDateSetListener,
 			}
 		}
 		return goal;
+	}
+
+	public void fillUIInfo() {
+		getGoal();
+		activity.editTextTitle.setText(this.goal.getTitle());
+		activity.editTextDescription.setText(this.goal.getDescription());
+		if (this.goal.getParentId() != null)
+			activity.parentGoal.setText(goalDao.loadGoal(
+					this.goal.getParentId()).getTitle());
+
+		activity.changeStartDate
+				.setText(Util.formatDateToString(
+						Util.DATE_TEMPLATE_dd_MMM_yyyy_kk_mm,
+						this.goal.getStartedAt()));
+		activity.changeFinishDate
+				.setText(Util.formatDateToString(
+						Util.DATE_TEMPLATE_dd_MMM_yyyy_kk_mm,
+						this.goal.getFinishedAt()));
+
 	}
 
 	public void setGoal(Goal goal) {

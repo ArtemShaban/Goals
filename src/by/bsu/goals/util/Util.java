@@ -22,5 +22,15 @@ public class Util {
 		String result = simpleDateFormat.format(target);
 		return result;
 	}
+
+	public static boolean isValidDates(String startDate, String finichDate) throws ParseException  {
+		Date stDate = parseStringToDate(DATE_TEMPLATE_dd_MMM_yyyy_kk_mm, startDate);
+		Date fnDate = parseStringToDate(DATE_TEMPLATE_dd_MMM_yyyy_kk_mm, finichDate);
+		if(fnDate.compareTo(stDate) == -1){
+			return false;
+		} else {
+			return true;
+		}
+	}
 	
 }
