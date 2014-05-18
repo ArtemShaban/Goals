@@ -9,4 +9,8 @@
           android:icon="@android:drawable/ic_menu_edit"
           android:title="@string/action_bar_menu_edit"
           android:showAsAction="always"/>
+
+    <!--<item android:id="@+id/action_bar_menu_fake"-->
+    <!--android:title="add many fake goals"-->
+    <!--android:showAsAction="always"/>-->
 </menu>

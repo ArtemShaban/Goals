@@ -46,10 +46,10 @@ public class EditGoalActivity extends Activity {
 			controller.setParentGoal(controller.getGoal().getParentId());
 			createOrEditButton.setText(R.string.Edit_goal_button);
 		} else {
-			controller.createAndFillNewGoal((Long) extras.get("parentGoalId"));
-			controller.setParentGoal(controller.getGoal().getParentId());
-			createOrEditButton.setText(R.string.Edit_goal_button);
-		}
+//			controller.createAndFillNewGoal((Long) extras.get("parentGoalId"));
+//			controller.setParentGoal(controller.getGoal().getParentId());
+//			createOrEditButton.setText(R.string.Edit_goal_button);
+        }
 
 		controller.fillUIInfo();
 	}

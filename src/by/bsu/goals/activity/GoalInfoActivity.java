@@ -121,6 +121,9 @@ public class GoalInfoActivity extends ActionBarActivity implements GoalView
             case R.id.action_bar_menu_edit:
                 callback.onEditClicked();
                 return true;
+//            case R.id.action_bar_menu_fake:
+//                LauncherActivity.fillDatabase("Fake title");
+//                onResume();
             default:
                 return super.onOptionsItemSelected(item);
         }

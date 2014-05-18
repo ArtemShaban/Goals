@@ -35,9 +35,9 @@ public class LauncherActivity extends Activity
         DBHelper.initDBHelper(this);
         goalLogic = new GoalLogic();
 
-        fillDatabase("qqq");
-        fillDatabase("qqq1");
-        fillDatabase("qqq2");
+        fillDatabase("Title");
+        fillDatabase("Title1");
+        fillDatabase("Title2");
     }
 
     @Override
@@ -99,6 +99,16 @@ public class LauncherActivity extends Activity
         {
             goal.setTitle("Child of goal(id =" + goalId + ") " + i);
             goalDAO.saveGoal(goal);
+            if (i == 2)
+            {
+                long id = goalDAO.saveGoal(goal);
+                goal.setParentId(id);
+                for (int j = 0; j < 2; j++)
+                {
+                    goal.setTitle("Child of child(id =" + id + ") " + i);
+                    goalDAO.saveGoal(goal);
+                }
+            }
         }
         long childId = goalDAO.saveGoal(goal);
         goal.setParentId(childId);
