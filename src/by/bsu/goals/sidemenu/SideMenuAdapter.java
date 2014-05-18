@@ -100,7 +100,7 @@ public class SideMenuAdapter extends BaseAdapter
                     ArrayList<Goal> steps = goal.getSteps();
                     if (steps != null)
                     {
-                        SideMenuStepsView child = new SideMenuStepsView(activity, steps, width);
+                        SideMenuStepsView child = new SideMenuStepsView(activity, steps, width, goalCLickedListener);
                         childrenList.addView(child);
                         childrenList.setVisibility(View.VISIBLE);
                     }

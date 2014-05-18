@@ -94,7 +94,7 @@ public class LauncherActivity extends Activity
         long goalId = goalDAO.saveGoal(goal);
         goal.setParentId(goalId);
         goalDAO.saveGoal(goal);
-        for (int i = 0; i < 13; i++)
+        for (int i = 0; i < 5; i++)
         {
             goal.setTitle("Child of goal(id =" + goalId + ") " + i);
             goalDAO.saveGoal(goal);
@@ -105,11 +105,24 @@ public class LauncherActivity extends Activity
         {
             goal.setTitle("Child of child(id =" + childId + ") " + i);
             goalDAO.saveGoal(goal);
+            if (i == 2)
+            {
+                long id = goalDAO.saveGoal(goal);
+                goal.setParentId(id);
+                for (int j = 0; j < 2; j++)
+                {
+                    goal.setTitle("Child of child(id =" + id + ") " + i);
+                    goalDAO.saveGoal(goal);
+                }
+            }
         }
-        List<Goal> goals = goalDAO.loadAllGoals(DAO.FAKE_USER_ID);
-        for (Goal goal1 : goals)
+
+        long childChildId = goalDAO.saveGoal(goal);
+        goal.setParentId(childChildId);
+        for (int i = 0; i < 5; i++)
         {
-            System.out.println("qwq");
+            goal.setTitle("Child of child of child(id =" + childChildId + ") " + i);
+            goalDAO.saveGoal(goal);
         }
     }
 
