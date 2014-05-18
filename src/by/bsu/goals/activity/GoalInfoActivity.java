@@ -62,10 +62,13 @@ public class GoalInfoActivity extends ActionBarActivity implements GoalView
         sideMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        int behindOffset = (int) (metrics.widthPixels * 0.4);
+        int behindOffset = (int) (metrics.widthPixels * 0.5);
         sideMenu.setBehindOffset(behindOffset);
         sideMenu.setBehindScrollScale(1f);
         sideMenu.setFadeDegree(0.35f);
+        sideMenu.setShadowDrawable(R.drawable.shadow);
+        sideMenu.setShadowWidth(behindOffset);
+
         sideMenu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
 
         sideMenuListView = new ListView(this);
