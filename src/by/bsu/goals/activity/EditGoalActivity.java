@@ -4,6 +4,7 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import by.bsu.goals.R;
@@ -20,6 +21,7 @@ public class EditGoalActivity extends Activity {
 	public TextView changeFinishDate;
 	public EditText editTextTitle;
 	public EditText editTextDescription;
+	public Button createOrEditButton;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -37,6 +39,8 @@ public class EditGoalActivity extends Activity {
 		parentGoal = (TextView) findViewById(R.id.textViewParentTitleValue);
 		editTextTitle = (EditText) findViewById(R.id.editTextTitle);
 		editTextDescription = (EditText) findViewById(R.id.editTextDescription);
+		createOrEditButton = (Button) findViewById(R.id.editOrCreateGoalButton);
+		createOrEditButton.setOnClickListener(controller);
 		changeFinishDate.setOnClickListener(controller);
 		changeStartDate.setOnClickListener(controller);
 

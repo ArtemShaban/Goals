@@ -6,4 +6,5 @@
     <string name="edit_goal_Description">Description:</string>
     <string name="edit_goal_Title">Title:</string>
     <string name="edit_goal_parent_title">Parent :</string>
+    <string name="Create_new_goal_button">Create new Goal</string>
 </resources>

@@ -1,7 +1,6 @@
 package by.bsu.goals.controller;
 
 import java.sql.Timestamp;
-import java.text.ParseException;
 import java.util.Date;
 
 import android.annotation.SuppressLint;
@@ -11,6 +10,7 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.TimePickerDialog;
 import android.app.TimePickerDialog.OnTimeSetListener;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -18,6 +18,7 @@ import android.widget.DatePicker;
 import android.widget.TimePicker;
 import by.bsu.goals.R;
 import by.bsu.goals.activity.EditGoalActivity;
+import by.bsu.goals.activity.GoalActivity;
 import by.bsu.goals.dao.DAO;
 import by.bsu.goals.dao.DBHelper;
 import by.bsu.goals.dao.GoalDAO;
@@ -57,6 +58,19 @@ public class EditGoalController implements OnClickListener, OnDateSetListener,
 		case R.id.textViewStartedAtValue:
 			changeGoalDateAndTime(STARTED_AT);
 			break;
+		case R.id.editOrCreateGoalButton:
+			readUIInfo();
+			long goalId;
+			if (goal.getId() == 0) {
+				goalId = goalDao.saveGoal(goal);
+			} else {
+				goalId = goal.getId();
+				goalDao.updateGoal(goal);
+			}
+			Intent intent = new Intent(activity, GoalActivity.class);
+			intent.putExtra("goalId", goalId);
+			this.activity.startActivity(intent);
+			break;
 		}
 	}
 
@@ -72,35 +86,29 @@ public class EditGoalController implements OnClickListener, OnDateSetListener,
 	@Override
 	public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
 		Date date = null;
-		try {
-			switch (currentTypeFlag) {
-			case FINISHED_AT:
-				date = Util.parseStringToDate(Util.DATE_TEMPLATE_dd_MMM_yyyy,
-						activity.changeFinishDate.getText().toString());
-				date.setHours(hourOfDay);
-				date.setMinutes(minute);
-				activity.changeFinishDate.setText(Util.formatDateToString(
-						Util.DATE_TEMPLATE_dd_MMM_yyyy_kk_mm, date));
-				break;
-			case STARTED_AT:
-				date = Util.parseStringToDate(Util.DATE_TEMPLATE_dd_MMM_yyyy,
-						activity.changeStartDate.getText().toString());
-				date.setHours(hourOfDay);
-				date.setMinutes(minute);
-				activity.changeStartDate.setText(Util.formatDateToString(
-						Util.DATE_TEMPLATE_dd_MMM_yyyy_kk_mm, date));
-				break;
-			default:
-				return;
-			}
-			if (!Util
-					.isValidDates(
-							activity.changeStartDate.getText().toString(),
-							activity.changeFinishDate.getText().toString()))
-				revertDateChanges();
-		} catch (ParseException pe) {
-			logger.e("Incorrect string for parse to Date", pe);
+		switch (currentTypeFlag) {
+		case FINISHED_AT:
+			date = Util.parseStringToDate(Util.DATE_TEMPLATE_dd_MMM_yyyy,
+					activity.changeFinishDate.getText().toString());
+			date.setHours(hourOfDay);
+			date.setMinutes(minute);
+			activity.changeFinishDate.setText(Util.formatDateToString(
+					Util.DATE_TEMPLATE_dd_MMM_yyyy_kk_mm, date));
+			break;
+		case STARTED_AT:
+			date = Util.parseStringToDate(Util.DATE_TEMPLATE_dd_MMM_yyyy,
+					activity.changeStartDate.getText().toString());
+			date.setHours(hourOfDay);
+			date.setMinutes(minute);
+			activity.changeStartDate.setText(Util.formatDateToString(
+					Util.DATE_TEMPLATE_dd_MMM_yyyy_kk_mm, date));
+			break;
+		default:
+			return;
 		}
+		if (!Util.isValidDates(activity.changeStartDate.getText().toString(),
+				activity.changeFinishDate.getText().toString()))
+			revertDateChanges();
 
 	}
 
@@ -141,24 +149,20 @@ public class EditGoalController implements OnClickListener, OnDateSetListener,
 		@Override
 		public Dialog onCreateDialog(Bundle savedInstanceState) {
 			Date date;
-			try {
-				if (type == FINISHED_AT)
-					date = Util.parseStringToDate(
-							Util.DATE_TEMPLATE_dd_MMM_yyyy_kk_mm,
-							activity.changeFinishDate.getText().toString());
-				else
-					date = Util.parseStringToDate(
-							Util.DATE_TEMPLATE_dd_MMM_yyyy_kk_mm,
-							activity.changeStartDate.getText().toString());
-				DatePickerDialog dialogw = new DatePickerDialog(activity,
-						EditGoalController.this, date.getYear() + 1900,
-						date.getMonth(), date.getDay());
-				dialogw.getDatePicker().setTag(type);
-				return dialogw;
-			} catch (ParseException e) {
-				logger.e("Error rised when parse string to date", e);
-				return null;
-			}
+
+			if (type == FINISHED_AT)
+				date = Util.parseStringToDate(
+						Util.DATE_TEMPLATE_dd_MMM_yyyy_kk_mm,
+						activity.changeFinishDate.getText().toString());
+			else
+				date = Util.parseStringToDate(
+						Util.DATE_TEMPLATE_dd_MMM_yyyy_kk_mm,
+						activity.changeStartDate.getText().toString());
+			DatePickerDialog dialogw = new DatePickerDialog(activity,
+					EditGoalController.this, date.getYear() + 1900,
+					date.getMonth(), date.getDay());
+			dialogw.getDatePicker().setTag(type);
+			return dialogw;
 		}
 	}
 
@@ -224,6 +228,17 @@ public class EditGoalController implements OnClickListener, OnDateSetListener,
 						Util.DATE_TEMPLATE_dd_MMM_yyyy_kk_mm,
 						this.goal.getFinishedAt()));
 
+	}
+
+	public void readUIInfo() {
+		goal.setTitle(activity.editTextTitle.getText().toString());
+		goal.setDescription(activity.editTextDescription.getText().toString());
+		goal.setStartedAt(new Timestamp(Util.parseStringToDate(
+				Util.DATE_TEMPLATE_dd_MMM_yyyy_kk_mm,
+				activity.changeStartDate.getText().toString()).getTime()));
+		goal.setFinishedAt(new Timestamp(Util.parseStringToDate(
+				Util.DATE_TEMPLATE_dd_MMM_yyyy_kk_mm,
+				activity.changeFinishDate.getText().toString()).getTime()));
 	}
 
 	public void setGoal(Goal goal) {
