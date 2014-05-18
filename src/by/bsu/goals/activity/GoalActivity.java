@@ -38,6 +38,14 @@ public class GoalActivity extends ActionBarActivity implements GoalView
     private Callback callback;
 
     private ListView sideMenuListView;
+    private SideMenuAdapter.OnGoalCLickedListener goalCLickedListener = new SideMenuAdapter.OnGoalCLickedListener()
+    {
+        @Override
+        public void onGoalClicked(Goal goal)
+        {
+            callback.goalUpdated(goal.getId());
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -53,14 +61,17 @@ public class GoalActivity extends ActionBarActivity implements GoalView
         menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        menu.setBehindOffset((int) (metrics.widthPixels * 0.4));
+        int behindOffset = (int) (metrics.widthPixels * 0.4);
+        menu.setBehindOffset(behindOffset);
         menu.setBehindScrollScale(1f);
         menu.setFadeDegree(0.35f);
         menu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
 
         sideMenuListView = new ListView(this);
         List<Goal> activeGoalsWithChildren = new GoalLogic().getActiveGoalsWithChildren();
-        sideMenuListView.setAdapter(new SideMenuAdapter(this, activeGoalsWithChildren));
+        SideMenuAdapter sideMenuAdapter = new SideMenuAdapter(this, activeGoalsWithChildren, metrics.widthPixels - behindOffset);
+        sideMenuAdapter.setGoalCLickedListener(goalCLickedListener);
+        sideMenuListView.setAdapter(sideMenuAdapter);
         menu.setMenu(sideMenuListView);
 
         goalId = getIntent().getExtras().getLong(LauncherActivity.GOAL_ID_EXTRA);

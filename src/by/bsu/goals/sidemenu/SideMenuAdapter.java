@@ -6,7 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ListView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import by.bsu.goals.R;
 import by.bsu.goals.data.Goal;
@@ -21,14 +21,22 @@ import java.util.List;
 public class SideMenuAdapter extends BaseAdapter
 {
     private static LayoutInflater inflater = null;
-    private Activity activity;
+    private final Activity activity;
+    private final int width;
     private List<Goal> goals;
+    private OnGoalCLickedListener goalCLickedListener;
 
-    public SideMenuAdapter(Activity activity, List<Goal> goals)
+    public SideMenuAdapter(Activity activity, List<Goal> goals, int widthSideMenu)
     {
         this.activity = activity;
         this.goals = goals;
         inflater = (LayoutInflater) this.activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        width = widthSideMenu;
+    }
+
+    public void setGoalCLickedListener(OnGoalCLickedListener goalCLickedListener)
+    {
+        this.goalCLickedListener = goalCLickedListener;
     }
 
     public int getCount()
@@ -53,7 +61,7 @@ public class SideMenuAdapter extends BaseAdapter
 
         if (convertView == null)
         {
-            view = inflater.inflate(R.layout.side_menu_list_item, null);
+            view = inflater.inflate(R.layout.side_menu_goal_item, null);
 
             holder = new ViewHolder();
             holder.title = (TextView) view.findViewById(R.id.side_menu_item_title);
@@ -79,26 +87,38 @@ public class SideMenuAdapter extends BaseAdapter
             @Override
             public void onClick(View v)
             {
-                ListView listView = (ListView) v.findViewById(R.id.side_menu_item_list_child);
-                if (listView.getVisibility() == View.GONE)
+                ViewHolder viewHolder = (ViewHolder) v.getTag();
+                Goal goal = (Goal) getItem(viewHolder.position);
+                if (goal.getParentId() == null && goalCLickedListener != null)
                 {
-                    ViewHolder viewHolder = (ViewHolder) v.getTag();
-                    ArrayList<Goal> steps = ((Goal) getItem(viewHolder.position)).getSteps();
+                    goalCLickedListener.onGoalClicked(goal);
+                }
+
+                LinearLayout childrenList = (LinearLayout) v.findViewById(R.id.side_menu_item_lower_container);
+                if (childrenList.getVisibility() == View.GONE)
+                {
+                    ArrayList<Goal> steps = goal.getSteps();
                     if (steps != null)
                     {
-                        listView.setAdapter(new SideMenuAdapter(activity, steps));
-                        listView.setVisibility(View.VISIBLE);
+                        SideMenuStepsView child = new SideMenuStepsView(activity, steps, width);
+                        childrenList.addView(child);
+                        childrenList.setVisibility(View.VISIBLE);
                     }
                 }
                 else
                 {
-                    listView.setVisibility(View.GONE);
+                    childrenList.setVisibility(View.GONE);
+                    childrenList.removeAllViews();
                 }
             }
         });
         return view;
     }
 
+    public interface OnGoalCLickedListener
+    {
+        public void onGoalClicked(Goal goal);
+    }
 
     private class ViewHolder
     {

@@ -20,5 +20,6 @@ public interface GoalView extends View
         public void backClicked();
         void onViewAttach();
         void onStepChosen(long stepId);
+        void goalUpdated(long goalId);
     }
 }

@@ -35,9 +35,9 @@ public class LauncherActivity extends Activity
         DBHelper.initDBHelper(this);
         goalLogic = new GoalLogic();
 
-//        fillDatabase();
-//        fillDatabase();
-//        fillDatabase();
+        fillDatabase("qqq");
+        fillDatabase("qqq1");
+        fillDatabase("qqq2");
     }
 
     @Override
@@ -83,11 +83,11 @@ public class LauncherActivity extends Activity
         state = State.NONE;
     }
 
-    private void fillDatabase()
+    private void fillDatabase(String title)
     {
         GoalDAO goalDAO = new GoalDAOSqlLite(DBHelper.instance());
         Goal goal = new Goal();
-        goal.setTitle("Goal");
+        goal.setTitle(title);
         goal.setStartedAt(new Timestamp(1391990400000L));
         goal.setFinishedAt(new Timestamp(1418169600000L));
         goal.setUserId(DAO.FAKE_USER_ID);

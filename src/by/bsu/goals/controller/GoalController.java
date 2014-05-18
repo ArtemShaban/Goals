@@ -60,7 +60,30 @@ public class GoalController implements GoalView.Callback
     @Override
     public void onStepChosen(long stepId)
     {
-        setGoal(stepId);
+        addAndUpdateGoal(stepId);
+    }
+
+    @Override
+    public void goalUpdated(long goalId)
+    {
+        while (true && goalsStack.size() > 0)
+        {
+            Goal currentGoal = goalsStack.pop();
+            if (currentGoal.getId() == goalId)
+            {
+                addAndUpdateGoal(goalId);
+                break;
+            }
+        }
+        if (goalsStack.size() == 0)
+        {
+            addAndUpdateGoal(goalId);
+        }
+    }
+
+    private void addAndUpdateGoal(long goalId)
+    {
+        setGoal(goalId);
         updateGoalView(goalsStack.peek());
     }
 
