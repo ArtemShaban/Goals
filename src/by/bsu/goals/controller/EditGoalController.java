@@ -15,7 +15,7 @@ import android.widget.DatePicker;
 import android.widget.TimePicker;
 import by.bsu.goals.R;
 import by.bsu.goals.activity.EditGoalActivity;
-import by.bsu.goals.activity.GoalActivity;
+import by.bsu.goals.activity.GoalInfoActivity;
 import by.bsu.goals.dao.DAO;
 import by.bsu.goals.dao.DBHelper;
 import by.bsu.goals.dao.GoalDAO;
@@ -71,7 +71,7 @@ public class EditGoalController implements OnClickListener, OnDateSetListener,
                     goalId = goal.getId();
                     goalDao.updateGoal(goal);
                 }
-                Intent intent = new Intent(activity, GoalActivity.class);
+                Intent intent = new Intent(activity, GoalInfoActivity.class);
                 intent.putExtra("goalId", goalId);
                 this.activity.startActivity(intent);
                 break;

@@ -16,7 +16,7 @@
                   android:label="Create goal"
                   android:theme="@style/Theme.AppCompat.Light">
         </activity>
-        <activity android:name=".activity.GoalActivity"
+        <activity android:name=".activity.GoalInfoActivity"
                   android:label="Goal info"
                   android:theme="@style/Theme.AppCompat.Light">
         </activity>

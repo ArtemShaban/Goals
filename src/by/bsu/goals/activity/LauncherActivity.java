@@ -52,7 +52,7 @@ public class LauncherActivity extends Activity
                 intent = new Intent(this, EditGoalActivity.class);
                 break;
             case GOAL_INFO:
-                intent = new Intent(this, GoalActivity.class);
+                intent = new Intent(this, GoalInfoActivity.class);
                 break;
             case EXIT:
                 finish();
@@ -61,7 +61,7 @@ public class LauncherActivity extends Activity
                 List<Goal> activeGoals = goalLogic.getActiveGoals();
                 if (activeGoals != null && activeGoals.size() > 0)
                 {
-                    intent = new Intent(this, GoalActivity.class);
+                    intent = new Intent(this, GoalInfoActivity.class);
                     intent.putExtra("goalId", activeGoals.get(0).getId());
                 }
                 else

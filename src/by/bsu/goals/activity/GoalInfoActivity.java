@@ -26,7 +26,7 @@ import java.util.List;
  * Created by Artem Shaban
  * Since 2014 MAY 14.
  */
-public class GoalActivity extends ActionBarActivity implements GoalView
+public class GoalInfoActivity extends ActionBarActivity implements GoalView
 {
     private final Logger logger = new Logger(this);
     private TextView titleTextView;
