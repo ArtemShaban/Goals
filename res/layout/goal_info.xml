@@ -3,35 +3,62 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_height="match_parent"
+              android:paddingBottom="@dimen/big_padding">
+
     <TextView
             android:id="@+id/goal_info_title"
+            style="@style/TextAppearance.AppCompat.Widget.Base.ActionMode.Title"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="Do my course work"
             android:gravity="center"
+            android:textSize="@dimen/goal_info_title"
+            android:singleLine="true"
             android:layout_margin="@dimen/margin_view"/>
+
     <TextView
             android:id="@+id/goal_info_description"
+            style="@style/TextAppearance.AppCompat.Base.Widget.PopupMenu.Small"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="Description"
+            android:textSize="@dimen/goal_info_description"
+            android:text="qwdw qwldnq dqwdq dqdq dqwdqd qd q d qwdqd q d,q dm qwwdq,dmqd"
             android:gravity="center"
             android:layout_margin="@dimen/margin_view"/>
-    <TextView
-            android:id="@+id/goal_info_started_at"
-            android:layout_width="fill_parent"
+
+    <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Started at"
-            android:gravity="center"
-            android:layout_margin="@dimen/margin_view"/>
-    <TextView
-            android:id="@+id/goal_info_finish_at"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="Finish at"
-            android:gravity="center"
-            android:layout_margin="@dimen/margin_view"/>
+            android:orientation="horizontal">
+
+        <TextView
+                android:id="@+id/goal_info_started_at"
+                android:layout_width="0dp"
+                android:layout_weight="0.4"
+                android:layout_height="wrap_content"
+                android:text="Started at"
+                android:gravity="center"
+                android:textSize="@dimen/goal_info_date"
+                android:layout_margin="@dimen/margin_view"/>
+        <TextView
+                android:layout_width="0dp"
+                android:layout_weight="0.2"
+                android:layout_height="wrap_content"
+                android:text="-->"
+                android:gravity="center"
+                android:textSize="@dimen/goal_info_date"
+                android:layout_margin="@dimen/margin_view"/>
+        <TextView
+                android:id="@+id/goal_info_finish_at"
+                android:layout_width="0dp"
+                android:layout_weight="0.4"
+                android:layout_height="wrap_content"
+                android:text="Finish at"
+                android:textSize="@dimen/goal_info_date"
+                android:gravity="center"
+                android:layout_margin="@dimen/margin_view"/>
+    </LinearLayout>
 
     <ListView
             android:id="@+id/goal_info_steps"

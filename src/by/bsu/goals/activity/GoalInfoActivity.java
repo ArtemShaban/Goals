@@ -20,6 +20,7 @@ import by.bsu.goals.data.Goal;
 import by.bsu.goals.log.Logger;
 import by.bsu.goals.logic.GoalLogic;
 import by.bsu.goals.sidemenu.SideMenuAdapter;
+import by.bsu.goals.util.DateUtil;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
 import java.sql.Timestamp;
@@ -118,7 +119,6 @@ public class GoalInfoActivity extends ActionBarActivity implements GoalView
                 }
                 return true;
             case R.id.action_bar_menu_add:
-                Intent intent = new Intent();
                 callback.onAddClicked();
                 return true;
             case R.id.action_bar_menu_edit:
@@ -156,8 +156,8 @@ public class GoalInfoActivity extends ActionBarActivity implements GoalView
     {
         titleTextView.setText(title);
         descriptionTextView.setText(description);
-        startAtTextView.setText(startAt.toString());
-        finishAtTextView.setText(finishAt.toString());
+        startAtTextView.setText(DateUtil.dateToDMmYyy(startAt.getTime()));
+        finishAtTextView.setText(DateUtil.dateToDMmYyy(finishAt.getTime()));
     }
 
     public void showSteps(List<Goal> steps)

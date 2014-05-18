@@ -20,7 +20,7 @@
                 android:layout_height="wrap_content"
                 android:text="Do my course work"
                 android:gravity="center"
-                android:layout_margin="4dp"/>
+                android:layout_margin="@dimen/margin_view"/>
 
         <TextView
                 android:id="@+id/side_menu_item_description"

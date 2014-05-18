@@ -4,4 +4,8 @@
     <dimen name="padding_right_side_menu">8dp</dimen>
     <dimen name="padding_left_side_menu">8dp</dimen>
     <dimen name="padding_top_side_menu_item">4dp</dimen>
+    <dimen name="goal_info_title">17pt</dimen>
+    <dimen name="goal_info_description">12pt</dimen>
+    <dimen name="goal_info_date">7pt</dimen>
+    <dimen name="big_padding">15dp</dimen>
 </resources>
