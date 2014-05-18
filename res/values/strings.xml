@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Do It</string>
+    <string name="app_name">I Can</string>
     <string name="edit_goal_Finish_time">Finish time:</string>
     <string name="edit_goal_Start_time">Start time:</string>
     <string name="edit_goal_Description">Description:</string>
