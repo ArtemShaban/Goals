@@ -35,8 +35,8 @@ public class LauncherActivity extends Activity
         DBHelper.initDBHelper(this);
         goalLogic = new GoalLogic();
 
-     //fillDatabase();
-
+        fillDatabase();
+        fillDatabase();
     }
 
     @Override
