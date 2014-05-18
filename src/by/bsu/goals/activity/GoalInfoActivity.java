@@ -5,12 +5,9 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.DisplayMetrics;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
+import android.view.*;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import by.bsu.goals.R;
@@ -164,7 +161,7 @@ public class GoalInfoActivity extends ActionBarActivity implements GoalView
     {
         if (steps != null)
         {
-            stepsListView.setAdapter(new ArrayAdapter<Goal>(this, android.R.layout.simple_list_item_1, steps));
+            stepsListView.setAdapter(new StepsListAdapter(steps));
             stepsListView.setVisibility(View.VISIBLE);
         }
         else
@@ -191,5 +188,74 @@ public class GoalInfoActivity extends ActionBarActivity implements GoalView
     public void finishView()
     {
         finish();
+    }
+
+    private class StepsListAdapter extends BaseAdapter
+    {
+
+        private List<Goal> goals;
+
+        private StepsListAdapter(List<Goal> goals)
+        {
+            this.goals = goals;
+        }
+
+        @Override
+        public int getCount()
+        {
+            return goals.size();
+        }
+
+        @Override
+        public Object getItem(int position)
+        {
+            return goals.get(position);
+        }
+
+        @Override
+        public long getItemId(int position)
+        {
+            return goals.get(position).getId();
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent)
+        {
+            View view = convertView;
+            final ViewHolder holder;
+
+            if (convertView == null)
+            {
+                view = getLayoutInflater().inflate(R.layout.side_menu_goal_item, null);
+
+                holder = new ViewHolder();
+                holder.title = (TextView) view.findViewById(R.id.side_menu_item_title);
+                holder.finishAt = (TextView) view.findViewById(R.id.side_menu_item_finish_at);
+                holder.startAt = (TextView) view.findViewById(R.id.side_menu_item_started_at);
+                holder.description = (TextView) view.findViewById(R.id.side_menu_item_description);
+                view.setTag(holder);
+            }
+            else
+            {
+                holder = (ViewHolder) view.getTag();
+            }
+
+            Goal goal = goals.get(position);
+            holder.title.setText(goal.getTitle());
+            holder.finishAt.setText(DateUtil.dateToDMmYyy(goal.getFinishedAt().getTime()));
+            holder.startAt.setText(DateUtil.dateToDMmYyy(goal.getStartedAt().getTime()));
+            holder.description.setText(goal.getDescription());
+            holder.position = position;
+            return view;
+        }
+
+        private class ViewHolder
+        {
+            TextView title;
+            TextView startAt;
+            TextView finishAt;
+            TextView description;
+            int position;
+        }
     }
 }
