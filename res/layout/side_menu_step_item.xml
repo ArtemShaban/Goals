@@ -3,34 +3,41 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="wrap_content">
-    <TextView
-            android:id="@+id/side_menu_step_title"
-            android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:paddingTop="@dimen/padding_top_side_menu_item">
+    <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Do my course work"
-            android:gravity="center"
-            android:layout_margin="@dimen/margin_view"/>
-    <TextView
-            android:id="@+id/side_menu_step_started_at"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="Started at"
-            android:gravity="center"
-            android:layout_margin="@dimen/margin_view"/>
-    <TextView
-            android:id="@+id/side_menu_step_finish_at"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="Finish at"
-            android:gravity="center"
-            android:layout_margin="@dimen/margin_view"/>
+            android:orientation="vertical"
+            android:background="@drawable/border">
+        <TextView
+                android:id="@+id/side_menu_step_title"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Do my course work"
+                android:gravity="center"
+                android:layout_margin="@dimen/margin_view"/>
+        <TextView
+                android:id="@+id/side_menu_step_started_at"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Started at"
+                android:gravity="center"
+                android:layout_margin="@dimen/margin_view"/>
+        <TextView
+                android:id="@+id/side_menu_step_finish_at"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Finish at"
+                android:gravity="center"
+                android:layout_margin="@dimen/margin_view"/>
+    </LinearLayout>
+
     <LinearLayout
             android:id="@+id/side_menu_step_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_margin="@dimen/margin_view"
             android:gravity="right|center_vertical"
             android:visibility="gone">
     </LinearLayout>
