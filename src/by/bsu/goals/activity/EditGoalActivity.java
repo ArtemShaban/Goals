@@ -1,15 +1,12 @@
 package by.bsu.goals.activity;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.os.Bundle;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import by.bsu.goals.R;
 import by.bsu.goals.controller.EditGoalController;
-import by.bsu.goals.data.Goal;
 
 /**
  * Created by Artem Shaban Since 2014 Май 14.
@@ -22,17 +19,12 @@ public class EditGoalActivity extends Activity {
 	public EditText editTextTitle;
 	public EditText editTextDescription;
 	public Button createOrEditButton;
+	public Button createSubTaskButton;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.edit_goal_layout);
-		Bundle extras = getIntent().getExtras();
-		if (extras != null) {
-			if (extras.get("goal") != null)
-				controller.setGoal((Goal) extras.get("goal"));
-			if (extras.get("parentGoal") != null)
-				controller.setParentGoal((Goal) extras.get("parentGoal"));
-		}
+
 		controller.setActivity(this);
 		changeStartDate = (TextView) findViewById(R.id.textViewStartedAtValue);
 		changeFinishDate = (TextView) findViewById(R.id.textViewFinishedAtValue);
@@ -40,15 +32,25 @@ public class EditGoalActivity extends Activity {
 		editTextTitle = (EditText) findViewById(R.id.editTextTitle);
 		editTextDescription = (EditText) findViewById(R.id.editTextDescription);
 		createOrEditButton = (Button) findViewById(R.id.editOrCreateGoalButton);
+		createSubTaskButton = (Button) findViewById(R.id.createSubTaskButton);
+
 		createOrEditButton.setOnClickListener(controller);
 		changeFinishDate.setOnClickListener(controller);
 		changeStartDate.setOnClickListener(controller);
+		createSubTaskButton.setOnClickListener(controller);
 
-		TextView text = new TextView(this);
-		text.setText("CreateGoalActivity");
-		addContentView(text, new ActionBar.LayoutParams(
-				ViewGroup.LayoutParams.WRAP_CONTENT,
-				ViewGroup.LayoutParams.WRAP_CONTENT));
+		Bundle extras = getIntent().getExtras();
+		if (extras != null && extras.get("goalId") != null) {
+			// retrieve goal from db by goalId idedentifier
+			controller.setGoal((Long) extras.get("goalId"));
+			controller.setParentGoal(controller.getGoal().getParentId());
+			createOrEditButton.setText(R.string.Edit_goal_button);
+		} else {
+			controller.createAndFillNewGoal((Long) extras.get("parentGoalId"));
+			controller.setParentGoal(controller.getGoal().getParentId());
+			createOrEditButton.setText(R.string.Edit_goal_button);
+		}
+
 		controller.fillUIInfo();
 	}
 
@@ -56,10 +58,12 @@ public class EditGoalActivity extends Activity {
 		super.onResume();
 		Bundle extras = getIntent().getExtras();
 		if (extras != null) {
-			if (extras.get("goal") != null)
-				controller.setGoal((Goal) extras.get("goal"));
-			if (extras.get("parentGoal") != null)
-				controller.setParentGoal((Goal) extras.get("parentGoal"));
+			if (extras.get("goalId") != null) {
+				controller.setGoal((Long) extras.get("goalId"));
+				createOrEditButton.setText(R.string.Edit_goal_button);
+			}
+			if (extras.get("parentGoalId") != null)
+				controller.setParentGoal((Long) extras.get("parentGoalId"));
 		}
 		controller.fillUIInfo();
 	}

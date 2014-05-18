@@ -10,9 +10,13 @@ import java.util.ArrayList;
  * Created by Artem Shaban
  * Since 2014 MAY 11.
  */
-public class Goal implements Comparable, Serializable
+public class Goal implements Comparable<Object>, Serializable
 {
-    private final Logger logger = new Logger(this);
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 7667272996132292934L;
+	private final Logger logger = new Logger(this);
     private long id;
     private String title;
     private String description;

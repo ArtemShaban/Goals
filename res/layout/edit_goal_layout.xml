@@ -5,109 +5,98 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:padding="15dp"
     tools:context=".activity.EditGoalActivity" >
-	
+
     <TextView
         android:id="@+id/Sfds"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="" />
 
-
-    <GridLayout
-        android:id="@+id/es"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/textViewParentTitle"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:columnCount="2"
-        android:orientation="vertical"
-        android:rowCount="6" >
+        android:text="@string/edit_goal_parent_title" />
 
-        
-   		 <TextView
-	        android:id="@+id/textViewParentTitle"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:text="@string/edit_goal_parent_title" />
-   		 
-	    <TextView
-	        android:id="@+id/textViewParentTitleValue"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"/>
-        
-        <TextView
-            android:id="@+id/textViewTitle"
-            android:layout_column="0"
-            android:layout_gravity="center"
-            android:layout_row="1"
-            android:text="@string/edit_goal_Title" />
+    <TextView
+        android:id="@+id/textViewParentTitleValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
-        <EditText
-            android:id="@+id/editTextTitle"
-            android:layout_width="150dp"
-            android:layout_column="1"
-            android:layout_gravity="center"
-            android:layout_row="1"
-            android:ems="10"
-            android:inputType="text" />
+    <TextView
+        android:id="@+id/textViewTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/edit_goal_Title" />
 
-        <TextView
-            android:id="@+id/textViewDescription"
-            android:layout_column="0"
-            android:layout_gravity="center"
-            android:layout_row="2"
-            android:text="@string/edit_goal_Description" />
+    <EditText
+        android:id="@+id/editTextTitle"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="text" >
 
-        <EditText
-            android:id="@+id/editTextDescription"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:layout_column="1"
-            android:layout_gravity="center"
-            android:layout_row="2"
-            android:ems="10"
-            android:inputType="text" >
-        </EditText>
+        <requestFocus />
+    </EditText>
 
-        <TextView
-            android:id="@+id/textViewStartedAt"
-            android:layout_column="0"
-            android:layout_gravity="center"
-            android:layout_row="3"
-            android:text="@string/edit_goal_Start_time" />
+    <TextView
+        android:id="@+id/textViewDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/edit_goal_Description" />
 
-        <TextView
-            android:id="@+id/textViewStartedAtValue"
-            android:layout_column="1"
-            android:layout_gravity="center"
-            android:layout_row="3" />
+    <EditText
+        android:id="@+id/editTextDescription"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="text" />
 
-        <Space
-            android:layout_height="20dp"
-            android:layout_column="0"
-            android:layout_gravity="center"
-            android:layout_row="4" />
-        
-        <TextView
-            android:id="@+id/textViewFinishedAt"
-            android:layout_column="0"
-            android:layout_gravity="center"
-            android:layout_row="5"
-            android:text="@string/edit_goal_Finish_time" />
+    <TextView
+        android:id="@+id/textViewStartedAt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/edit_goal_Start_time" />
 
-        <TextView
-            android:id="@+id/textViewFinishedAtValue"
-            android:layout_column="1"
-            android:layout_gravity="center"
-            android:layout_row="5" />
-        
-    </GridLayout>
+    <EditText
+        android:id="@+id/textViewStartedAtValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="12"
+        android:inputType="date" />
+
+    <TextView
+        android:id="@+id/textViewFinishedAt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/edit_goal_Finish_time" />
+
+    <EditText
+        android:id="@+id/textViewFinishedAtValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="date"
+        android:ems="12"/>
 
     <Button
         android:id="@+id/editOrCreateGoalButton"
-        android:layout_width="wrap_content"
+        android:layout_width="287dp"
         android:layout_height="wrap_content"
-        android:text="@string/Create_new_goal_button"
-        android:layout_gravity="center" />
+        android:layout_gravity="fill_horizontal"
+        android:text="@string/Create_new_goal_button" />
+    
+    <Button
+        android:id="@+id/createSubTaskButton"
+        android:layout_width="287dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="fill_horizontal"
+        android:text="@string/Create_SubTask_button" />
+    
+    <ListView
+            android:id="@+id/edit_goal_steps"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
 </LinearLayout>
