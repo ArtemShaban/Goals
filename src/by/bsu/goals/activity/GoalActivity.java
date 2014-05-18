@@ -15,6 +15,8 @@ import by.bsu.goals.controller.GoalController;
 import by.bsu.goals.controller.GoalView;
 import by.bsu.goals.data.Goal;
 import by.bsu.goals.log.Logger;
+import by.bsu.goals.logic.GoalLogic;
+import by.bsu.goals.sidemenu.SideMenuAdapter;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
 import java.sql.Timestamp;
@@ -27,7 +29,6 @@ import java.util.List;
 public class GoalActivity extends ActionBarActivity implements GoalView
 {
     private final Logger logger = new Logger(this);
-    ListView listView;
     private TextView titleTextView;
     private TextView descriptionTextView;
     private TextView startAtTextView;
@@ -35,6 +36,8 @@ public class GoalActivity extends ActionBarActivity implements GoalView
     private ListView stepsListView;
     private long goalId;
     private Callback callback;
+
+    private ListView sideMenuListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -55,8 +58,10 @@ public class GoalActivity extends ActionBarActivity implements GoalView
         menu.setFadeDegree(0.35f);
         menu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
 
-        listView = new ListView(this);
-        menu.setMenu(listView);
+        sideMenuListView = new ListView(this);
+        List<Goal> activeGoalsWithChildren = new GoalLogic().getActiveGoalsWithChildren();
+        sideMenuListView.setAdapter(new SideMenuAdapter(this, activeGoalsWithChildren));
+        menu.setMenu(sideMenuListView);
 
         goalId = getIntent().getExtras().getLong(LauncherActivity.GOAL_ID_EXTRA);
         callback = new GoalController(this);
@@ -121,7 +126,6 @@ public class GoalActivity extends ActionBarActivity implements GoalView
         {
             stepsListView.setAdapter(new ArrayAdapter<Goal>(this, android.R.layout.simple_list_item_1, steps));
             stepsListView.setVisibility(View.VISIBLE);
-            listView.setAdapter(stepsListView.getAdapter());
         }
         else
         {

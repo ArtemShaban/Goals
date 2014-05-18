@@ -53,6 +53,39 @@ public class GoalLogic
         return null;
     }
 
+    public List<Goal> getActiveGoalsWithChildren()
+    {
+        ArrayList<Goal> result = new ArrayList<Goal>();
+
+        List<Goal> goals = goalDAO.loadAllGoals(DAO.FAKE_USER_ID);
+        if (goals != null)
+        {
+            for (Goal goal : goals)
+            {
+                if (isGoalActive(goal) && goal.getParentId() == null)
+                {
+                    goal.setSteps((ArrayList<Goal>) getChildrenTree(goal.getId()));
+                    result.add(goal);
+                }
+            }
+            return result;
+        }
+        return null;
+    }
+
+    private List<Goal> getChildrenTree(long goalId)
+    {
+        List<Goal> children = goalDAO.loadChildren(goalId);
+        if (children != null)
+        {
+            for (Goal child : children)
+            {
+                child.setSteps((ArrayList<Goal>) getChildrenTree(child.getId()));
+            }
+        }
+        return children;
+    }
+
     private boolean isGoalActive(Goal goal)
     {
         return System.currentTimeMillis() < goal.getFinishedAt().getTime();
