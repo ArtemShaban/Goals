@@ -1,9 +1,12 @@
 package by.bsu.goals.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.DisplayMetrics;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -34,7 +37,7 @@ public class GoalInfoActivity extends ActionBarActivity implements GoalView
     private TextView startAtTextView;
     private TextView finishAtTextView;
     private ListView stepsListView;
-    private long goalId;
+    private long currentGoalId;
     private Callback callback;
 
     private SlidingMenu sideMenu;
@@ -78,9 +81,9 @@ public class GoalInfoActivity extends ActionBarActivity implements GoalView
         sideMenuListView.setAdapter(sideMenuAdapter);
         sideMenu.setMenu(sideMenuListView);
 
-        goalId = getIntent().getExtras().getLong(LauncherActivity.GOAL_ID_EXTRA);
+        currentGoalId = getIntent().getExtras().getLong(LauncherActivity.GOAL_ID_EXTRA);
         callback = new GoalController(this);
-        callback.setGoal(goalId);
+        callback.setGoal(currentGoalId);
 
         titleTextView = (TextView) findViewById(R.id.goal_info_title);
         descriptionTextView = (TextView) findViewById(R.id.goal_info_description);
@@ -102,7 +105,6 @@ public class GoalInfoActivity extends ActionBarActivity implements GoalView
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
-        // Handle presses on the action bar items
         switch (item.getItemId())
         {
             case android.R.id.home:
@@ -115,9 +117,25 @@ public class GoalInfoActivity extends ActionBarActivity implements GoalView
                     sideMenu.showMenu();
                 }
                 return true;
+            case R.id.action_bar_menu_add:
+                Intent intent = new Intent();
+                callback.onAddClicked();
+                return true;
+            case R.id.action_bar_menu_edit:
+                callback.onEditClicked();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        // Inflate the menu items for use in the action bar
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.action_bar_menu, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -153,6 +171,14 @@ public class GoalInfoActivity extends ActionBarActivity implements GoalView
         {
             stepsListView.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    public void startEditActivity(Long goalId)
+    {
+        Intent intent = new Intent(this, EditGoalActivity.class);
+        intent.putExtra("goalId", goalId);
+        startActivity(intent);
     }
 
     @Override

@@ -81,6 +81,18 @@ public class GoalController implements GoalView.Callback
         }
     }
 
+    @Override
+    public void onAddClicked()
+    {
+        view.startEditActivity(null);
+    }
+
+    @Override
+    public void onEditClicked()
+    {
+        view.startEditActivity(goalsStack.peek().getId());
+    }
+
     private void addAndUpdateGoal(long goalId)
     {
         setGoal(goalId);

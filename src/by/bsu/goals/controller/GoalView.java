@@ -13,7 +13,7 @@ public interface GoalView extends View
 {
     public void updateInfo(String title, String description, Timestamp startAt, Timestamp finishAt);
     public void showSteps(List<Goal> steps);
-
+    public void startEditActivity(Long goalId);
     interface Callback
     {
         public void setGoal(Long goalId);
@@ -21,5 +21,7 @@ public interface GoalView extends View
         void onViewAttach();
         void onStepChosen(long stepId);
         void goalUpdated(long goalId);
+        void onAddClicked();
+        void onEditClicked();
     }
 }
