@@ -37,6 +37,13 @@ public class DateUtil
         return result;
     }
 
+    public static String dateToDMmYyy(long timestamp)
+    {
+        simpleDateFormat = new SimpleDateFormat(DATE_TEMPLATE_dd_MMM_yyyy);
+        String result = simpleDateFormat.format(new Date(timestamp));
+        return result;
+    }
+
     public static boolean isValidDates(String startDate, String finichDate)
     {
         Date stDate = parseStringToDate(DATE_TEMPLATE_dd_MMM_yyyy_kk_mm,
