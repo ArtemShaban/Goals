@@ -35,8 +35,9 @@ public class LauncherActivity extends Activity
         DBHelper.initDBHelper(this);
         goalLogic = new GoalLogic();
 
-        fillDatabase();
-        fillDatabase();
+//        fillDatabase();
+//        fillDatabase();
+//        fillDatabase();
     }
 
     @Override
@@ -70,7 +71,6 @@ public class LauncherActivity extends Activity
         }
         if (intent != null)
         {
-            intent = new Intent(this, EditGoalActivity.class);
             startActivity(intent);
         }
     }
