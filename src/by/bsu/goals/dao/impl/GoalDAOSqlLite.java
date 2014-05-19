@@ -10,6 +10,7 @@ import by.bsu.goals.log.Logger;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -69,11 +70,10 @@ public class GoalDAOSqlLite implements GoalDAO
     {
         Cursor c = readableDatabase.query(TABLE_NAME, null, PARENT_ID + " = ?", new String[]{String.valueOf(parentId)}, null, null, null);
 
-        ArrayList<Goal> goals = null;
+        ArrayList<Goal> goals = new ArrayList<Goal>();
         if (c != null && c.moveToFirst())
         {
-            goals = new ArrayList<Goal>();
-            logger.i(c.getCount() + "goals loaded.");
+        	logger.i(c.getCount() + "goals loaded.");
             do
             {
                 Goal goal = getGoal(c);

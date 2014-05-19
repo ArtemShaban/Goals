@@ -80,7 +80,7 @@ public class GoalLogic
         {
             for (Goal child : children)
             {
-                child.setSteps((ArrayList<Goal>) getChildrenTree(child.getId()));
+                child.setSteps((List<Goal>) getChildrenTree(child.getId()));
             }
         }
         return children;

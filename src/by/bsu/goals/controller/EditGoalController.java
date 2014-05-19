@@ -13,6 +13,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.DatePicker;
 import by.bsu.goals.R;
 import by.bsu.goals.activity.EditGoalActivity;
@@ -32,7 +34,7 @@ import by.bsu.goals.util.DateUtil;
 @SuppressLint("NewApi")
 public class EditGoalController implements OnClickListener, OnDateSetListener
 //,OnTimeSetListener
-, OnFocusChangeListener
+, OnFocusChangeListener, OnItemLongClickListener
 	{
 
 	public static final int FINISHED_AT = 1;
@@ -69,6 +71,13 @@ public class EditGoalController implements OnClickListener, OnDateSetListener
 		}
 	}
 	
+	@Override
+	public boolean onItemLongClick(AdapterView<?> parent, View view,
+			int position, long id) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
 	private void CreateNewSubGoal() {
 		readUIInfo();
 		long goalId;
@@ -80,7 +89,6 @@ public class EditGoalController implements OnClickListener, OnDateSetListener
 		}
 		Intent intent = new Intent(activity, EditGoalActivity.class);
 		intent.putExtra("parentGoalId", goalId);
-		goalDao.releaseResources();
 		activity.finish();
 		this.activity.startActivity(intent);
 		
@@ -97,7 +105,6 @@ public class EditGoalController implements OnClickListener, OnDateSetListener
 		}
 		Intent intent = new Intent(activity, GoalInfoActivity.class);
 		intent.putExtra("goalId", goalId);
-		goalDao.releaseResources();
 		activity.finish();
 		this.activity.startActivity(intent);
 		
@@ -261,6 +268,10 @@ public class EditGoalController implements OnClickListener, OnDateSetListener
 
 	public void setParentGoal(Goal parentGoal) {
 		this.parentGoal = parentGoal;
+	}
+
+	public Goal[] getGoalChilds(long parentId) {
+		return goalDao.loadChildren(parentId).toArray(new Goal[0]);
 	}
 	
 //	@Override

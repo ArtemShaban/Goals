@@ -15,32 +15,52 @@
 
         <TextView
                 android:id="@+id/side_menu_item_title"
+                style="@style/TextAppearance.AppCompat.Widget.Base.ActionMode.Title"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="Do my course work"
                 android:gravity="center"
                 android:layout_margin="@dimen/margin_view"/>
+
         <TextView
-                android:id="@+id/side_menu_item_started_at"
+                android:id="@+id/side_menu_item_description"
+                style="@style/TextAppearance.AppCompat.Base.Widget.PopupMenu.Small"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="Started at"
+                android:text="qwdw qwldnq dqwdq dqdq dqwdqd qd q d qwdqd q d,q dm qwwdq,dmqd"
                 android:gravity="center"
                 android:layout_margin="@dimen/margin_view"/>
-        <TextView
-                android:id="@+id/side_menu_item_finish_at"
-                android:layout_width="fill_parent"
+
+        <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Finish at"
-                android:gravity="center"
-                android:layout_margin="@dimen/margin_view"/>
-        <TextView
-                android:id="@+id/side_menu_item_count_children"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="4"
-                android:gravity="center"
-                android:layout_margin="@dimen/margin_view"/>
+                android:orientation="horizontal">
+
+            <TextView
+                    android:id="@+id/side_menu_item_started_at"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.4"
+                    android:layout_height="wrap_content"
+                    android:text="Started at"
+                    android:gravity="center"
+                    android:layout_margin="@dimen/margin_view"/>
+            <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="0.2"
+                    android:layout_height="wrap_content"
+                    android:text="-->"
+                    android:gravity="center"
+                    android:layout_margin="@dimen/margin_view"/>
+            <TextView
+                    android:id="@+id/side_menu_item_finish_at"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.4"
+                    android:layout_height="wrap_content"
+                    android:text="Finish at"
+                    android:gravity="center"
+                    android:layout_margin="@dimen/margin_view"/>
+        </LinearLayout>
+
     </LinearLayout>
 
     <LinearLayout

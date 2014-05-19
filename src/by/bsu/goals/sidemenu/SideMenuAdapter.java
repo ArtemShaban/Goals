@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import by.bsu.goals.R;
 import by.bsu.goals.data.Goal;
+import by.bsu.goals.util.DateUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,8 +68,7 @@ public class SideMenuAdapter extends BaseAdapter
             holder.title = (TextView) view.findViewById(R.id.side_menu_item_title);
             holder.finishAt = (TextView) view.findViewById(R.id.side_menu_item_finish_at);
             holder.startAt = (TextView) view.findViewById(R.id.side_menu_item_started_at);
-            holder.countChildren = (TextView) view.findViewById(R.id.side_menu_item_count_children);
-
+            holder.description = (TextView) view.findViewById(R.id.side_menu_item_description);
             view.setTag(holder);
         }
         else
@@ -78,9 +78,9 @@ public class SideMenuAdapter extends BaseAdapter
 
         Goal goal = goals.get(position);
         holder.title.setText(goal.getTitle());
-        holder.finishAt.setText(goal.getFinishedAt().toString());
-        holder.startAt.setText(goal.getStartedAt().toString());
-        holder.countChildren.setText(goal.getSteps() != null ? String.valueOf(goal.getSteps().size()) : "0");
+        holder.finishAt.setText(DateUtil.dateToDMmYyy(goal.getFinishedAt().getTime()));
+        holder.startAt.setText(DateUtil.dateToDMmYyy(goal.getStartedAt().getTime()));
+        holder.description.setText(goal.getDescription());
         holder.position = position;
         view.setOnClickListener(new View.OnClickListener()
         {
@@ -97,7 +97,7 @@ public class SideMenuAdapter extends BaseAdapter
                 LinearLayout childrenList = (LinearLayout) v.findViewById(R.id.side_menu_item_lower_container);
                 if (childrenList.getVisibility() == View.GONE)
                 {
-                    ArrayList<Goal> steps = goal.getSteps();
+                    List<Goal> steps = goal.getSteps();
                     if (steps != null)
                     {
                         SideMenuStepsView child = new SideMenuStepsView(activity, steps, width, goalCLickedListener);
@@ -125,7 +125,7 @@ public class SideMenuAdapter extends BaseAdapter
         TextView title;
         TextView startAt;
         TextView finishAt;
-        TextView countChildren;
+        TextView description;
         int position;
     }
 

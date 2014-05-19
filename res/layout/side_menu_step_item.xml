@@ -12,25 +12,47 @@
             android:background="@drawable/border">
         <TextView
                 android:id="@+id/side_menu_step_title"
+                style="@style/TextAppearance.AppCompat.Widget.Base.ActionMode.Title"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="Do my course work"
                 android:gravity="center"
+                android:singleLine="true"
+                android:ellipsize="end"
                 android:layout_margin="@dimen/margin_view"/>
-        <TextView
-                android:id="@+id/side_menu_step_started_at"
-                android:layout_width="fill_parent"
+        <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Started at"
-                android:gravity="center"
-                android:layout_margin="@dimen/margin_view"/>
-        <TextView
-                android:id="@+id/side_menu_step_finish_at"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="Finish at"
-                android:gravity="center"
-                android:layout_margin="@dimen/margin_view"/>
+                android:orientation="horizontal">
+            <TextView
+                    android:id="@+id/side_menu_step_started_at"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.45"
+                    android:layout_height="wrap_content"
+                    android:text="Started at"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    android:layout_margin="@dimen/margin_view"/>
+            <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="0.1"
+                    android:layout_height="wrap_content"
+                    android:text="-->"
+                    android:gravity="center"
+                    android:layout_margin="@dimen/margin_view"/>
+            <TextView
+                    android:id="@+id/side_menu_step_finish_at"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.45"
+                    android:layout_height="wrap_content"
+                    android:text="Finish at"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    android:layout_margin="@dimen/margin_view"/>
+        </LinearLayout>
+
     </LinearLayout>
 
     <LinearLayout

@@ -1,10 +1,11 @@
 package by.bsu.goals.data;
 
-import by.bsu.goals.log.Logger;
-
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.List;
+
+import by.bsu.goals.log.Logger;
 
 /**
  * Created by Artem Shaban
@@ -26,7 +27,7 @@ public class Goal implements Comparable<Object>, Serializable
     private Long userId;
     private Long parentId;
     private Integer position;
-    private ArrayList<Goal> steps;
+    private List<Goal> steps;
 
     public Goal()
     {
@@ -182,12 +183,12 @@ public class Goal implements Comparable<Object>, Serializable
         this.position = position;
     }
 
-    public ArrayList<Goal> getSteps()
+    public List<Goal> getSteps()
     {
         return steps;
     }
 
-    public void setSteps(ArrayList<Goal> steps)
+    public void setSteps(List<Goal> steps)
     {
         this.steps = steps;
     }
