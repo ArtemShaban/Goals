@@ -1,102 +1,124 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/edit_goal_main_layout"
+    android:id="@+id/scrollView1"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="15dp"
-    tools:context=".activity.EditGoalActivity" >
+    android:layout_height="wrap_content" >
 
-    <TextView
-        android:id="@+id/Sfds"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/edit_goal_main_layout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="" />
+        android:layout_margin="4dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="15dp"
+        tools:context=".activity.EditGoalActivity" >
 
-    <TextView
-        android:id="@+id/textViewParentTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/edit_goal_parent_title" />
+        <TextView
+            android:id="@+id/Sfds"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="" />
 
-    <TextView
-        android:id="@+id/textViewParentTitleValue"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/textViewParentTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/edit_goal_parent_title"
+            android:textSize="20sp" />
 
-    <TextView
-        android:id="@+id/textViewTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/edit_goal_Title" />
+        <TextView
+            android:id="@+id/textViewParentTitleValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
-    <EditText
-        android:id="@+id/editTextTitle"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="text" >
+        <TextView
+            android:id="@+id/textViewTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:text="@string/edit_goal_Title"
+            android:textSize="16sp" />
 
-        <requestFocus />
-    </EditText>
+        <EditText
+            android:id="@+id/editTextTitle"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:ems="10"
+            android:inputType="text" >
 
-    <TextView
-        android:id="@+id/textViewDescription"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/edit_goal_Description" />
+            <requestFocus />
+        </EditText>
 
-    <EditText
-        android:id="@+id/editTextDescription"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="text" />
+        <TextView
+            android:id="@+id/textViewDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:text="@string/edit_goal_Description"
+            android:textSize="16sp" />
 
-    <TextView
-        android:id="@+id/textViewStartedAt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/edit_goal_Start_time" />
+        <EditText
+            android:id="@+id/editTextDescription"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:ems="10"
+            android:inputType="text" />
 
-    <EditText
-        android:id="@+id/textViewStartedAtValue"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="12"
-        android:inputType="date" />
+        <TextView
+            android:id="@+id/textViewStartedAt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:text="@string/edit_goal_Start_time"
+            android:textSize="16sp" />
 
-    <TextView
-        android:id="@+id/textViewFinishedAt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/edit_goal_Finish_time" />
+        <EditText
+            android:id="@+id/textViewStartedAtValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:ems="12"
+            android:inputType="date" />
 
-    <EditText
-        android:id="@+id/textViewFinishedAtValue"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="date"
-        android:ems="12"/>
+        <TextView
+            android:id="@+id/textViewFinishedAt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:text="@string/edit_goal_Finish_time"
+            android:textSize="16sp" />
 
-    <Button
-        android:id="@+id/editOrCreateGoalButton"
-        android:layout_width="287dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="fill_horizontal"
-        android:text="@string/Create_new_goal_button" />
-    
-    <Button
-        android:id="@+id/createSubTaskButton"
-        android:layout_width="287dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="fill_horizontal"
-        android:text="@string/Create_SubTask_button" />
-    
-    <ListView
+        <EditText
+            android:id="@+id/textViewFinishedAtValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:ems="12"
+            android:inputType="date" />
+
+        <Button
+            android:id="@+id/editOrCreateGoalButton"
+            android:layout_width="287dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="fill_horizontal"
+            android:text="@string/Create_new_goal_button" />
+
+        <Button
+            android:id="@+id/createSubTaskButton"
+            android:layout_width="287dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="fill_horizontal"
+            android:text="@string/Create_SubTask_button" />
+
+        <ListView
             android:id="@+id/edit_goal_steps"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
+        
+    </LinearLayout>
 
-</LinearLayout>
+</ScrollView>

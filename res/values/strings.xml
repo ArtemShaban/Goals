@@ -7,7 +7,7 @@
     <string name="edit_goal_Title">Title:</string>
     <string name="edit_goal_parent_title">Parent :</string>
     <string name="Create_new_goal_button">Create new Goal</string>
-    <string name="Edit_goal_button">Edit Goal</string>
+    <string name="Edit_goal_button">Save Goal</string>
     <string name="Create_SubTask_button">Create SubTask</string>
     <string name="action_bar_menu_add">Add goal</string>
     <string name="action_bar_menu_edit">Edit goal</string>

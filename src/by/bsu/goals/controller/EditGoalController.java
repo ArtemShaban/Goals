@@ -1,18 +1,19 @@
 package by.bsu.goals.controller;
 
+import java.sql.Timestamp;
+import java.util.Date;
+
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.app.TimePickerDialog;
-import android.app.TimePickerDialog.OnTimeSetListener;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnFocusChangeListener;
 import android.widget.DatePicker;
-import android.widget.TimePicker;
 import by.bsu.goals.R;
 import by.bsu.goals.activity.EditGoalActivity;
 import by.bsu.goals.activity.GoalInfoActivity;
@@ -24,31 +25,40 @@ import by.bsu.goals.data.Goal;
 import by.bsu.goals.log.Logger;
 import by.bsu.goals.util.DateUtil;
 
-import java.sql.Timestamp;
-import java.util.Date;
-
 /**
  * @author Sergey Datskevich May 13, 2014 1:23:53 PM
  */
-
+//Code for Time is commented, not removed;
 @SuppressLint("NewApi")
-public class EditGoalController implements OnClickListener, OnDateSetListener,
-		OnTimeSetListener {
+public class EditGoalController implements OnClickListener, OnDateSetListener
+//,OnTimeSetListener
+, OnFocusChangeListener
+	{
 
 	public static final int FINISHED_AT = 1;
 	public static final int STARTED_AT = 2;
 	public static final boolean HOURS_TIME_FROMAT_24 = true;
 	private static Logger logger = new Logger(EditGoalController.class);
-	private static GoalDAO goalDao = new GoalDAOSqlLite(DBHelper.instance());
-	private long DEFAULT_DIFFERENCE_BETWEEN_STARTAND_FINISH = 1235;
+	private GoalDAO goalDao = new GoalDAOSqlLite(DBHelper.instance());
+	private long DEFAULT_DIFFERENCE_BETWEEN_STARTAND_FINISH = 1235000;
 	private Goal goal;
 	private Goal parentGoal;
 	private EditGoalActivity activity;
 	// uses to define witch textEdit view is clicked
 	private int currentTypeFlag = 0;
-
 	@Override
 	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.editOrCreateGoalButton:
+			CreateOrUpdateGoal();
+			break;
+		case R.id.createSubTaskButton:
+			CreateNewSubGoal();
+		}
+	}
+
+	@Override
+	public void onFocusChange(View v, boolean hasFocus) {
 		switch (v.getId()) {
 		case R.id.textViewFinishedAtValue:
 			changeGoalDateAndTime(FINISHED_AT);
@@ -56,14 +66,9 @@ public class EditGoalController implements OnClickListener, OnDateSetListener,
 		case R.id.textViewStartedAtValue:
 			changeGoalDateAndTime(STARTED_AT);
 			break;
-		case R.id.editOrCreateGoalButton:
-			CreateNewGoal();
-			break;
-		case R.id.createSubTaskButton:
-			CreateNewSubGoal();
 		}
 	}
-
+	
 	private void CreateNewSubGoal() {
 		readUIInfo();
 		long goalId;
@@ -75,11 +80,13 @@ public class EditGoalController implements OnClickListener, OnDateSetListener,
 		}
 		Intent intent = new Intent(activity, EditGoalActivity.class);
 		intent.putExtra("parentGoalId", goalId);
-		this.activity.startActivity(intent);
+		goalDao.releaseResources();
 		activity.finish();
+		this.activity.startActivity(intent);
+		
 	}
 
-	private void CreateNewGoal() {
+	private void CreateOrUpdateGoal() {
 		readUIInfo();
 		long goalId;
 		if (goal.getId() == 0) {
@@ -90,50 +97,22 @@ public class EditGoalController implements OnClickListener, OnDateSetListener,
 		}
 		Intent intent = new Intent(activity, GoalInfoActivity.class);
 		intent.putExtra("goalId", goalId);
-		this.activity.startActivity(intent);
+		goalDao.releaseResources();
 		activity.finish();
+		this.activity.startActivity(intent);
+		
 	}
 
 	private void changeGoalDateAndTime(int type) {
 		DialogFragment dialogFragment;
 		currentTypeFlag = type;
-		dialogFragment = new CustomTimePicker(type);
-		dialogFragment.show(activity.getFragmentManager(), type + "");
+//		dialogFragment = new CustomTimePicker(type);
+//		dialogFragment.show(activity.getFragmentManager(), type + "");
 		dialogFragment = new CustomDatePicker(type);
 		dialogFragment.show(activity.getFragmentManager(), type + "");
 	}
 
-	@Override
-	public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-		Date date = null;
-		switch (currentTypeFlag) {
-		case FINISHED_AT:
-			date = DateUtil.parseStringToDate(
-					DateUtil.DATE_TEMPLATE_dd_MMM_yyyy,
-					activity.changeFinishDate.getText().toString());
-			date.setHours(hourOfDay);
-			date.setMinutes(minute);
-			activity.changeFinishDate.setText(DateUtil.formatDateToString(
-					DateUtil.DATE_TEMPLATE_dd_MMM_yyyy_kk_mm, date));
-			break;
-		case STARTED_AT:
-			date = DateUtil.parseStringToDate(
-					DateUtil.DATE_TEMPLATE_dd_MMM_yyyy,
-					activity.changeStartDate.getText().toString());
-			date.setHours(hourOfDay);
-			date.setMinutes(minute);
-			activity.changeStartDate.setText(DateUtil.formatDateToString(
-					DateUtil.DATE_TEMPLATE_dd_MMM_yyyy_kk_mm, date));
-			break;
-		default:
-			return;
-		}
-		if (!DateUtil.isValidDates(activity.changeStartDate.getText()
-				.toString(), activity.changeFinishDate.getText().toString())) {
-			revertDateChanges();
-		}
-
-	}
+//	
 
 	private void revertDateChanges() {
 		if (currentTypeFlag == STARTED_AT) {
@@ -152,12 +131,22 @@ public class EditGoalController implements OnClickListener, OnDateSetListener,
 		Date date = new Date(year - 1900, monthOfYear, dayOfMonth);
 		if (((Integer) view.getTag()).equals(FINISHED_AT)) {
 			activity.changeFinishDate.setText(DateUtil.formatDateToString(
-					DateUtil.DATE_TEMPLATE_dd_MMM_yyyy, date));
+					DateUtil.DATE_TEMPLATE, date));
+			if( this.parentGoal != null && date.compareTo(this.parentGoal.getStartedAt()) != 1){
+				revertDateChanges();
+			}
 			logger.i(activity.changeFinishDate.getText().toString());
 		} else {
 			activity.changeStartDate.setText(DateUtil.formatDateToString(
-					DateUtil.DATE_TEMPLATE_dd_MMM_yyyy, date));
+					DateUtil.DATE_TEMPLATE, date));
+			if(this.parentGoal != null && date.compareTo(this.parentGoal.getStartedAt()) != -1){
+				revertDateChanges();
+			}
 			logger.i(activity.changeStartDate.getText().toString());
+		}
+		if (!DateUtil.isValidDates(activity.changeStartDate.getText()
+				.toString(), activity.changeFinishDate.getText().toString())) {
+			revertDateChanges();
 		}
 	}
 
@@ -179,7 +168,7 @@ public class EditGoalController implements OnClickListener, OnDateSetListener,
 		return goal;
 	}
 
-	public void setGoal(Long goalId) {
+	public void setGoalById(Long goalId) {
 		this.goal = goalDao.loadGoal(goalId);
 	}
 
@@ -205,10 +194,10 @@ public class EditGoalController implements OnClickListener, OnDateSetListener,
 		}
 
 		activity.changeStartDate.setText(DateUtil.formatDateToString(
-				DateUtil.DATE_TEMPLATE_dd_MMM_yyyy_kk_mm,
+				DateUtil.DATE_TEMPLATE,
 				this.goal.getStartedAt()));
 		activity.changeFinishDate.setText(DateUtil.formatDateToString(
-				DateUtil.DATE_TEMPLATE_dd_MMM_yyyy_kk_mm,
+				DateUtil.DATE_TEMPLATE,
 				this.goal.getFinishedAt()));
 
 	}
@@ -217,10 +206,10 @@ public class EditGoalController implements OnClickListener, OnDateSetListener,
 		goal.setTitle(activity.editTextTitle.getText().toString());
 		goal.setDescription(activity.editTextDescription.getText().toString());
 		goal.setStartedAt(new Timestamp(DateUtil.parseStringToDate(
-				DateUtil.DATE_TEMPLATE_dd_MMM_yyyy_kk_mm,
+				DateUtil.DATE_TEMPLATE,
 				activity.changeStartDate.getText().toString()).getTime()));
 		goal.setFinishedAt(new Timestamp(DateUtil.parseStringToDate(
-				DateUtil.DATE_TEMPLATE_dd_MMM_yyyy_kk_mm,
+				DateUtil.DATE_TEMPLATE,
 				activity.changeFinishDate.getText().toString()).getTime()));
 	}
 
@@ -228,7 +217,7 @@ public class EditGoalController implements OnClickListener, OnDateSetListener,
 		return parentGoal;
 	}
 
-	public void setParentGoal(Long parentGoalId) {
+	public void setParentGoalById(Long parentGoalId) {
 		if (parentGoalId != null)
 			this.parentGoal = goalDao.loadGoal(parentGoalId);
 	}
@@ -251,11 +240,11 @@ public class EditGoalController implements OnClickListener, OnDateSetListener,
 
 			if (type == FINISHED_AT) {
 				date = DateUtil.parseStringToDate(
-						DateUtil.DATE_TEMPLATE_dd_MMM_yyyy_kk_mm,
+						DateUtil.DATE_TEMPLATE,
 						activity.changeFinishDate.getText().toString());
 			} else {
 				date = DateUtil.parseStringToDate(
-						DateUtil.DATE_TEMPLATE_dd_MMM_yyyy_kk_mm,
+						DateUtil.DATE_TEMPLATE,
 						activity.changeStartDate.getText().toString());
 			}
 			DatePickerDialog dialogw = new DatePickerDialog(activity,
@@ -266,31 +255,73 @@ public class EditGoalController implements OnClickListener, OnDateSetListener,
 		}
 	}
 
-	@SuppressLint("ValidFragment")
-	private class CustomTimePicker extends DialogFragment {
-		protected int type;
-
-		public CustomTimePicker(int type) {
-			this.type = type;
-		}
-
-		@Override
-		public Dialog onCreateDialog(Bundle savedInstanceState) {
-			Date date;
-			if (type == FINISHED_AT) {
-				date = getGoal().getFinishedAt();
-			} else {
-				date = getGoal().getStartedAt();
-			}
-			TimePickerDialog dialogw = new TimePickerDialog(activity,
-					EditGoalController.this, date.getHours(),
-					date.getMinutes(), HOURS_TIME_FROMAT_24);
-
-			return dialogw;
-		}
-
-		// private void setTimePickerId(int id){
-		// ((TimePicker)this.getView().findViewById(R.id.timePicker)).setId(id);
-		// }
+	public void setGoal(Goal goal) {
+		this.goal = goal;
 	}
+
+	public void setParentGoal(Goal parentGoal) {
+		this.parentGoal = parentGoal;
+	}
+	
+//	@Override
+//	public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+//		Date date = null;
+//		switch (currentTypeFlag) {
+//		case FINISHED_AT:
+//			date = DateUtil.parseStringToDate(
+//					DateUtil.DATE_TEMPLATE,
+//					activity.changeFinishDate.getText().toString());
+//			date.setHours(hourOfDay);
+//			date.setMinutes(minute);
+//			activity.changeFinishDate.setText(DateUtil.formatDateToString(
+//					DateUtil.DATE_TEMPLATE, date));
+//			break;
+//		case STARTED_AT:
+//			date = DateUtil.parseStringToDate(
+//					DateUtil.DATE_TEMPLATE,
+//					activity.changeStartDate.getText().toString());
+//			date.setHours(hourOfDay);
+//			date.setMinutes(minute);
+//			activity.changeStartDate.setText(DateUtil.formatDateToString(
+//					DateUtil.DATE_TEMPLATE, date));
+//			break;
+//		default:
+//			return;
+//		}
+//		if (!DateUtil.isValidDates(activity.changeStartDate.getText()
+//				.toString(), activity.changeFinishDate.getText().toString())) {
+//			revertDateChanges();
+//		}
+//
+//	}
+	
+//	@SuppressLint("ValidFragment")
+//	private class CustomTimePicker extends DialogFragment {
+//		protected int type;
+//
+//		public CustomTimePicker(int type) {
+//			this.type = type;
+//		}
+//
+//		@Override
+//		public Dialog onCreateDialog(Bundle savedInstanceState) {
+//			Date date;
+//			if (type == FINISHED_AT) {
+//				date = getGoal().getFinishedAt();
+//			} else {
+//				date = getGoal().getStartedAt();
+//			}
+//			TimePickerDialog dialogw = new TimePickerDialog(activity,
+//					EditGoalController.this, date.getHours(),
+//					date.getMinutes(), HOURS_TIME_FROMAT_24);
+//
+//			return dialogw;
+//		}
+//
+//		// private void setTimePickerId(int id){
+//		// ((TimePicker)this.getView().findViewById(R.id.timePicker)).setId(id);
+//		// }
+//	}
+
+	
 }

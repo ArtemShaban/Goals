@@ -10,8 +10,7 @@ import java.util.Date;
 public class DateUtil
 {
 
-    public static final String DATE_TEMPLATE_dd_MMM_yyyy = "dd MMM yyyy";
-    public static final String DATE_TEMPLATE_dd_MMM_yyyy_kk_mm = "dd MMM yyyy kk:mm";
+    public static final String DATE_TEMPLATE = "dd MMM yyyy";
     private static DateFormat simpleDateFormat;
     private static Logger logger = new Logger(DateUtil.class);
 
@@ -39,9 +38,9 @@ public class DateUtil
 
     public static boolean isValidDates(String startDate, String finichDate)
     {
-        Date stDate = parseStringToDate(DATE_TEMPLATE_dd_MMM_yyyy_kk_mm,
+        Date stDate = parseStringToDate(DATE_TEMPLATE,
                 startDate);
-        Date fnDate = parseStringToDate(DATE_TEMPLATE_dd_MMM_yyyy_kk_mm,
+        Date fnDate = parseStringToDate(DATE_TEMPLATE,
                 finichDate);
         if (fnDate.compareTo(stDate) == -1)
         {
@@ -52,5 +51,4 @@ public class DateUtil
             return true;
         }
     }
-
 }
